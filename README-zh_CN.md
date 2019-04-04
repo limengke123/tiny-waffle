@@ -15,7 +15,7 @@
 # 复制仓库
 git clone https://github.com/limengke123/tiny-waffle.git
 
-# 安装以来
+# 安装依赖
 # 或者 npm install
 yarn
 
