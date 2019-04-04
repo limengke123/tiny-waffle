@@ -24,12 +24,10 @@ class Home extends React.Component {
             <div>
                 <Count count={count} />
                 <button type="button" onClick={this.decrease}>
-                    {' '}
-                    -{' '}
+                    -
                 </button>
                 <button type="button" onClick={this.increase}>
-                    {' '}
-                    +{' '}
+                    +
                 </button>
             </div>
         )
