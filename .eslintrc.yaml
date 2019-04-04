@@ -19,6 +19,7 @@ rules:
   react/prefer-stateless-function: 0
   react/jsx-indent: 0
   react/jsx-filename-extension: 0
+  react/jsx-indent-props: 0
   # default setting
   no-use-before-define: 0
   indent:
@@ -32,3 +33,4 @@ rules:
     - 2
     - single
   for-direction: 2
+  no-plusplus: 0

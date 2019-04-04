@@ -1,0 +1,10 @@
+@import '../variable';
+.todo-list-item {
+    font-size: 24px;
+    color: $black;
+}
+
+.is-complete {
+    color: $grey;
+    text-decoration: line-through;
+}
