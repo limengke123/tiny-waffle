@@ -4,13 +4,13 @@ import { Home } from './page/home'
 import './style/App.css'
 
 class App extends Component {
-  render() {
-    return (
-      <Router>
-        <Route path="/" exact component={Home} />
-      </Router>
-    )
-  }
+    render() {
+        return (
+            <Router>
+                <Route path="/" exact component={Home} />
+            </Router>
+        )
+    }
 }
 
 export default App
