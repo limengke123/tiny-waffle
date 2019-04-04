@@ -1,5 +1,7 @@
 import React from 'react'
+import { Button } from '../component/button'
 import { Count } from '../component/count'
+import styles from '../style/page/home.module.scss'
 
 class Home extends React.Component {
     state = {
@@ -20,15 +22,14 @@ class Home extends React.Component {
 
     render() {
         const { count } = this.state
+        console.log('home render')
         return (
-            <div>
+            <div className={styles.home}>
                 <Count count={count} />
-                <button type="button" onClick={this.decrease}>
-                    -
-                </button>
-                <button type="button" onClick={this.increase}>
-                    +
-                </button>
+                <div>
+                    <Button onClick={this.decrease} text="-" />
+                    <Button onClick={this.increase} text="+" />
+                </div>
             </div>
         )
     }
