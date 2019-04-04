@@ -1,22 +1,22 @@
-import React from 'react';
-import { Count } from '../component/count';
+import React from 'react'
+import { Count } from '../component/count'
 
 class Home extends React.Component {
   state = {
     count: 0
-  };
+  }
 
   increase = () => {
     this.setState({
       count: this.state.count + 1
-    });
-  };
+    })
+  }
 
   decrease = () => {
     this.setState({
       count: this.state.count - 1
-    });
-  };
+    })
+  }
 
   render() {
     return (
@@ -25,8 +25,8 @@ class Home extends React.Component {
         <button onClick={this.decrease}> - </button>
         <button onClick={this.increase}> + </button>
       </div>
-    );
+    )
   }
 }
 
-export { Home };
+export { Home }

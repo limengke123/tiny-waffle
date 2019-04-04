@@ -1,16 +1,33 @@
----
 root: true
 extends:
-  - eslint:recommended
-  - plugin:react/recommended
-settings:
-  react:
-    createClass: createReactClass
-    pragma: React
-    version: detect
-    flowVersion: 0.53
-  propWrapperFunctions:
-    - forbidExtraProps
-    - {property:freeze, object:Object}
-    - {property:myFavoriteWrapper}
-...
+  - airbnb
+  - prettier
+env:
+  browser: true
+  node: true
+  es6: true
+  jest: true
+  jasmine: true
+parser: babel-eslint
+plugins:
+  - react
+  - babel
+rules:
+  # import setting
+  import/prefer-default-export: 0
+  # react setting
+  react/prefer-stateless-function: 0
+  react/jsx-indent: 0
+  # default setting
+  no-use-before-define: 0
+  indent:
+    - 2
+    - 4
+  semi:
+    - 2
+    - never
+    - beforeStatementContinuationChars: always
+  quotes:
+    - 2
+    - single
+  for-direction: 2
