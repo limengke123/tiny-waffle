@@ -10,7 +10,6 @@ before_script:
 
 script:
 - yarn run build
-- hexo generate
 after_script:
 # - hexo deploy
   - cd ./build
