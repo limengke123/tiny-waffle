@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Redirect,
+    Switch
+} from 'react-router-dom'
 import { Home } from './page/home'
 import { TodoList } from './page/todoList'
 import './style/App.css'
@@ -18,8 +24,11 @@ class App extends Component {
                         </li>
                     </ul>
                 </nav>
-                <Route path="/todoList" component={TodoList} />
-                <Route path="/counter" component={Home} />
+                <Switch>
+                    <Route path="/todoList" component={TodoList} />
+                    <Route path="/counter" component={Home} />
+                    <Route path="*" render={() => <Redirect to="/counter" />} />
+                </Switch>
             </Router>
         )
     }
