@@ -6,8 +6,9 @@ import {
     Redirect,
     Switch
 } from 'react-router-dom'
-import { Home } from './page/home'
+import { Counter } from './page/counter'
 import { TodoList } from './page/todoList'
+import { NotFound } from './page/notFound'
 import './style/App.css'
 
 class App extends Component {
@@ -26,8 +27,9 @@ class App extends Component {
                 </nav>
                 <Switch>
                     <Route path="/todoList" component={TodoList} />
-                    <Route path="/counter" component={Home} />
-                    <Route path="*" render={() => <Redirect to="/counter" />} />
+                    <Route path="/counter" component={Counter} />
+                    <Route path="/404" component={NotFound} />
+                    <Route path="*" render={() => <Redirect to="/404" />} />
                 </Switch>
             </Router>
         )

@@ -3,7 +3,7 @@ import { Button } from '../component/button'
 import { Count } from '../component/count'
 import styles from '../style/page/home.module.scss'
 
-class Home extends React.Component {
+class Counter extends React.Component {
     state = {
         count: 0
     }
@@ -22,7 +22,7 @@ class Home extends React.Component {
 
     render() {
         const { count } = this.state
-        console.log('home render')
+        console.log('count container page render')
         return (
             <div className={styles.home}>
                 <Count count={count} />
@@ -35,4 +35,4 @@ class Home extends React.Component {
     }
 }
 
-export { Home }
+export { Counter }

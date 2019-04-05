@@ -13,7 +13,7 @@ class Button extends PureComponent {
     }
 
     render() {
-        console.log('button render')
+        console.log('count button render')
         const { text, onClick: onClickProps } = this.props
         return (
             <button type="button" onClick={onClickProps}>

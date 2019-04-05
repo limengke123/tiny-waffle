@@ -12,7 +12,7 @@ class Count extends React.Component {
     }
 
     render() {
-        console.log('count render')
+        console.log('count number render')
         const { count } = this.props
         return <div className={styles.count}>{count}</div>
     }
