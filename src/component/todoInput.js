@@ -6,13 +6,20 @@ class TodoInput extends Component {
     static propTypes = {
         value: PropTypes.string,
         onComplete: PropTypes.func,
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        placeholder: PropTypes.string
     }
 
     static defaultProps = {
         value: '',
         onComplete() {},
-        onChange() {}
+        onChange() {},
+        placeholder: ''
+    }
+
+    shouldComponentUpdate(nextProps) {
+        const { value } = this.props
+        return nextProps.value !== value
     }
 
     handleKeyUp = e => {
@@ -23,7 +30,8 @@ class TodoInput extends Component {
     }
 
     render() {
-        const { value, onChange } = this.props
+        const { value, onChange, placeholder } = this.props
+        console.log('input is render')
         return (
             <div>
                 <input
@@ -32,6 +40,7 @@ class TodoInput extends Component {
                     onChange={onChange}
                     onKeyUp={this.handleKeyUp}
                     className={styles['todo-input']}
+                    placeholder={placeholder}
                 />
             </div>
         )

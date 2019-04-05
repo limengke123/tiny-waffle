@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { TodoListItem } from '../component/todoListItem'
 import { TodoInput } from '../component/todoInput'
-import { BaseFunction } from '../util'
+import { BaseFunction, DateFunction } from '../util'
 
 class TodoList extends Component {
     static index = 0
@@ -16,9 +16,12 @@ class TodoList extends Component {
         if (inputValue) {
             this.setState(state => {
                 state.todos.push({
-                    text: state.inputValue,
                     isComplete: false,
-                    id: TodoList.index++
+                    id: TodoList.index++,
+                    info: {
+                        text: inputValue,
+                        date: DateFunction.currentTime
+                    }
                 })
                 return {
                     inputValue: '',
@@ -38,6 +41,20 @@ class TodoList extends Component {
         })
     }
 
+    handleComplete = ({ id }) => {
+        this.setState(state => {
+            const index = BaseFunction.getIndexFromListById(state.todos, id)
+            const todo = state.todos[index]
+            state.todos[index] = {
+                ...todo,
+                isComplete: !todo.isComplete
+            }
+            return {
+                todos: state.todos
+            }
+        })
+    }
+
     handleInputValueChange = e => {
         this.setState({
             inputValue: e.target.value
@@ -45,6 +62,7 @@ class TodoList extends Component {
     }
 
     render() {
+        console.log('todoList is render')
         const { todos, inputValue } = this.state
         return (
             <div>
@@ -52,11 +70,13 @@ class TodoList extends Component {
                     value={inputValue}
                     onChange={this.handleInputValueChange}
                     onComplete={this.addTodoListItem}
+                    placeholder="请输入待办项"
                 />
                 {!todos.length && <span>暂无数据</span>}
                 {todos.map(todo => (
                     <TodoListItem
                         handleDelete={this.deleteTodoListItem}
+                        handleComplete={this.handleComplete}
                         data={todo}
                         key={todo.id}
                     />

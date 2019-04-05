@@ -1,23 +1,33 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import styles from '../style/component/todoListItem.module.scss'
 
-class TodoListItem extends Component {
+class TodoListItem extends PureComponent {
     static propTypes = {
         data: PropTypes.shape({
-            text: PropTypes.string,
+            info: PropTypes.shape({
+                text: PropTypes.string,
+                date: PropTypes.string
+            }),
             isComplete: PropTypes.bool,
             id: PropTypes.number
         }),
-        handleDelete: PropTypes.func
+        handleDelete: PropTypes.func,
+        handleComplete: PropTypes.func
     }
 
     static defaultProps = {
         data: {
-            text: '',
-            isComplete: false
+            isComplete: false,
+            info: {
+                text: '',
+                data: ''
+            },
+            id: ''
         },
-        handleDelete() {}
+        handleDelete() {},
+        handleComplete() {}
     }
 
     onDelete = () => {
@@ -25,16 +35,25 @@ class TodoListItem extends Component {
         handleDelete(data)
     }
 
+    onComplete = () => {
+        const { handleComplete, data } = this.props
+        handleComplete(data)
+    }
+
     render() {
+        console.log('listItem is render')
         const { data } = this.props
-        const { text, isComplete } = data
-        const className = [
-            styles['todo-list-item'],
-            isComplete ? styles['is-complete'] : null
-        ]
+        const { info, isComplete } = data
+        const { date, text } = info
+        const textClassName = classNames(styles.text, {
+            [styles['is-complete']]: isComplete
+        })
         return (
-            <div className={className}>
-                {text}
+            <div>
+                <div onClick={this.onComplete}>
+                    <span className={textClassName}>{text}</span>
+                    <span className={styles.date}>{date}</span>
+                </div>
                 <button type="button" onClick={this.onDelete}>
                     删除
                 </button>

@@ -1,7 +1,13 @@
 @import '../variable';
 .todo-list-item {
-    font-size: 24px;
+}
+.text {
+    font-size: 30px;
     color: $black;
+}
+.date {
+    font-size: 18px;
+    color: $grey;
 }
 
 .is-complete {
