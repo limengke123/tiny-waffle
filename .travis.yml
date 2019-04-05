@@ -7,17 +7,15 @@ install:
 before_script:
 - git config --global user.name "travis-ci"
 - git config --global user.email "752140235@qq.com"
-
 script:
 - yarn run build
 after_script:
-# - hexo deploy
-  - cd ./build
-  - git init
-  - git add .
-  - git commit -m "Travis-CI update docs"
-  - git push --force https://${REPO_TOKEN}@${GH_REF} master:gh-pages
+- cd ./build
+- git init
+- git add .
+- git commit -m "Travis-CI update docs"
+- git push --force https://${TOKEN}@${GH_REF} master:gh-pages
 env:
   global:
-  - secure: TWm5m8sMQdNX+oHm0feRrRIcLIbph5IvCxT9+i66sPw2W2Qe4TYZKVpwVYIvxW6r/4LffCUiFR3IrOnPoxGi13n1W6kYAhpsK6YgaTBh38UxRhRM/768pPxA5O6Dt1USWpocSegbjF55828ODRb/nr2uIFDOhWVMZo22x/HdYQYWZM8TNXWccU1ZC08BrLivT/AanEn3NACBkLRT/5uhh2NA9/nv9MVxP+/X65mGBbGu6zolTky7cNxuRplglsx1trdfOUvWEDSPCBO8B2Rx4NB3XwOaDzVn3okY2jBjSz1jb9xiyESDyDmnjlMv9p+5LZkUx8kMWDtH7UY7F/y/az0i/M74gwE7BcZ6vdk+eCBjABkTqb8X/hG33Ttkr21AbM02E0BmDhyl2pim2xsnAGdSIQ4vY8YwgBDKbwe2ZoKZCjEoKvUc1HLboTi4Z52etQXIrKSVxlQR2gL14NwYrPiSdhA4jOKnDTxkuCTb4PFw4NgAfkqxPx9GezEfntaJX06//ZQo4B0v1AQ2RuYfY9k3XHNlwYIfk073MV2R7a2+r83ndYVIVhLP810vFn/ZuPuCR8gICbIZWW+ZsKnms9WTOVIrWxvkL0Ts1dwBov62T0HG7Ndck2AVtnym4wgDxPLXeTTwPg16L+za8lirLNQBs5Vz/h3SdcL9Kefig/w=
   - GH_REF: github.com/limengke123/tiny-waffle.git
+  - secure: 2YVqqJSOQeFa2Z9HkhiPsSytaSP0z36UCxVkW2VbanN3mEeaB9AF+7LHxRC+YEm03TBMtu9oCwbOfkE1WwdoZC+hWgfjBiL+5ewHdRmTorYn2xUy26XPKNr9JJvJoivIGijnQKc6mtTTw6m1p7SoZlGDwiFZVGyV6k23Wbco5AoZBPSypkF4TkxfjrTL8vpN4C+1AMtP7YJRvmlx20SPHqeor/B/krez5F+mLv2rVzy8esJyVr5Npl1+G0x/lkqDWCpM+vQlxdXJrRC1nlpZa3stGsp9UCISloo4zyI15Xe+jb8psnEioaz1a8eOcxSzEALIPMvNUob1AKMM7UFHt++Kk/FKQvXUqlU127HC9AHyRDanBZUHAGgbjP40YIDQ8nUX5ojIeVsYjnB0kEYZi/FkG+7/51NFXXaZzybSRJah/f7noDnlmmqQfELoPNAdmPfUTV4idnz9CdLik+flUj8+ppxXhDh6vS5qEqozg06M+z0aPfQY8e+7skQHdAg0XAT/434ZWIXbT7pr5i3XPQzCkuDOeIKM3oKaqg02uS/pDHYZCByXvuhYyaZrHenWRMEprR32pPnXFxsdbnC6dIIzvxO1xryixRNazSmfdHfudFxEpfFdfr+o4S5/zN7CnRdYHk78gZkVlTBcblooVWcC3WeVrwGm8c9f3INT9f0=
