@@ -86,4 +86,4 @@ class TodoList extends Component {
     }
 }
 
-export { TodoList }
+export default TodoList

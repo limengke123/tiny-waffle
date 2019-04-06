@@ -35,4 +35,4 @@ class Counter extends React.Component {
     }
 }
 
-export { Counter }
+export default Counter

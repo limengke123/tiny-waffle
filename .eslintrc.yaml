@@ -25,17 +25,25 @@ rules:
   jsx-a11y/click-events-have-key-events: 0
   # default setting
   no-use-before-define: 0
+  # 缩进
   indent:
     - 2
     - 4
+  # 不要给我写分号
   semi:
     - 2
     - never
     - beforeStatementContinuationChars: always
+  # 单引号
   quotes:
     - 2
     - single
   for-direction: 2
+  # 可以用++符号
   no-plusplus: 0
+  # 函数内部的参数可以被覆盖
   no-param-reassign: 0
+  # 可以用打印函数
   no-console: 0
+  # 可以用匿名函数
+  func-names: 0

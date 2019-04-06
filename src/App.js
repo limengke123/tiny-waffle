@@ -6,10 +6,29 @@ import {
     Redirect,
     Switch
 } from 'react-router-dom'
-import { Counter } from './page/counter'
-import { TodoList } from './page/todoList'
-import { NotFound } from './page/notFound'
+import Loadable from 'react-loadable'
 import './style/App.css'
+
+const AsyncCounter = Loadable({
+    loader: () => import('./page/counter'),
+    loading() {
+        return <div>Loading...</div>
+    }
+})
+
+const AsyncTodoList = Loadable({
+    loader: () => import('./page/todoList'),
+    loading() {
+        return <div>Loading...</div>
+    }
+})
+
+const AsyncNotFound = Loadable({
+    loader: () => import('./page/notFound'),
+    loading() {
+        return <div>Loading...</div>
+    }
+})
 
 class App extends Component {
     render() {
@@ -26,9 +45,9 @@ class App extends Component {
                     </ul>
                 </nav>
                 <Switch>
-                    <Route path="/todoList" component={TodoList} />
-                    <Route path="/counter" component={Counter} />
-                    <Route path="/404" component={NotFound} />
+                    <Route path="/todoList" component={AsyncTodoList} />
+                    <Route path="/counter" component={AsyncCounter} />
+                    <Route path="/404" component={AsyncNotFound} />
                     <Route path="*" render={() => <Redirect to="/404" />} />
                 </Switch>
             </Router>
