@@ -1,3 +1,10 @@
+@import '../variable';
 .count {
     font-size: 40px;
+    color: $black;
+}
+
+.sub-info {
+    font-size: 20px;
+    color: $grey;
 }

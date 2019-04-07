@@ -47,3 +47,9 @@ rules:
   no-console: 0
   # 可以用匿名函数
   func-names: 0
+  # 可以使用位运算符
+  no-bitwise: 0
+  # 注释的空格问题就别给我提示了
+  spaced-comment: 0
+  # 没有用的参数给提醒就可以了
+  no-unused-vars: 1
