@@ -8,7 +8,8 @@ before_script:
 - git config --global user.name "travis-ci"
 - git config --global user.email "752140235@qq.com"
 script:
-- yarn run build
+- yarn build
+- yarn test
 after_script:
 - cd ./build
 - git init
