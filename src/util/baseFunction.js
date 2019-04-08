@@ -6,7 +6,8 @@ class BaseFunction {
      * @return {void}
      * */
     static removeItemFromListByIndex(data, index) {
-        if (Array.isArray(data)) {
+        index = typeof index === 'number' ? index : parseInt(index, 10)
+        if (Array.isArray(data) && index >= 0 && index < data.length) {
             data.splice(index, 1)
         }
     }
