@@ -1,27 +1,5 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-
-// class Button extends React.PureComponent {
-//     static propTypes = {
-//         text: PropTypes.string,
-//         onClick: PropTypes.func
-//     }
-//
-//     static defaultProps = {
-//         text: '',
-//         onClick() {}
-//     }
-//
-//     render() {
-//         console.log('count button render')
-//         const { text, onClick: onClickProps } = this.props
-//         return (
-//             <button type="button" onClick={onClickProps}>
-//                 {text}
-//             </button>
-//         )
-//     }
-// }
 
 function Button({ text, onClick }) {
     console.log('count button render')
@@ -30,6 +8,16 @@ function Button({ text, onClick }) {
             {text}
         </button>
     )
+}
+
+Button.propTypes = {
+    text: PropTypes.string,
+    onClick: PropTypes.func
+}
+
+Button.defaultProps = {
+    text: '',
+    onClick() {}
 }
 
 const MemoButton = React.memo(Button)
