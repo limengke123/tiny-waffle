@@ -2,22 +2,25 @@ import { BaseFunction } from '../baseFunction'
 
 describe('BaseFunction', () => {
     describe('removeItemFromListByIndex', () => {
+        let fakeData = [1, 2, 3, 4]
+
+        beforeEach(() => {
+            fakeData = [1, 2, 3, 4]
+        })
+
         it('could remove element by index', () => {
-            const fakeData = [1, 2, 3, 4]
             const index = 2
             BaseFunction.removeItemFromListByIndex(fakeData, index)
             expect(fakeData).toEqual([1, 2, 4])
         })
 
         it('do nothing with invalid index', () => {
-            const fakeData = [1, 2, 3, 4]
             const index = -2
             BaseFunction.removeItemFromListByIndex(fakeData, index)
             expect(fakeData).toEqual([1, 2, 3, 4])
         })
 
         it('works well as pass string index into', () => {
-            const fakeData = [1, 2, 3, 4]
             const index = '1'
             BaseFunction.removeItemFromListByIndex(fakeData, index)
             expect(fakeData).toEqual([1, 3, 4])
