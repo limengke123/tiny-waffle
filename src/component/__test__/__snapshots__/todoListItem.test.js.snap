@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`todolistItem should render correctly 1`] = `
+<div>
+  <div
+    class="wrapper"
+  >
+    <span
+      class="text"
+    />
+    <span
+      class="date"
+    />
+  </div>
+  <button
+    type="button"
+  >
+    删除
+  </button>
+</div>
+`;
+
+exports[`todolistItem should render correctly 2`] = `
+<div>
+  <div
+    class="wrapper"
+  >
+    <span
+      class="text is-complete"
+    >
+      测试文字
+    </span>
+    <span
+      class="date"
+    >
+      2019-2-13 12:24:42
+    </span>
+  </div>
+  <button
+    type="button"
+  >
+    删除
+  </button>
+</div>
+`;

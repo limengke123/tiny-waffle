@@ -11,7 +11,7 @@ class TodoListItem extends PureComponent {
                 date: PropTypes.string
             }),
             isComplete: PropTypes.bool,
-            id: PropTypes.number
+            id: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
         }),
         handleDelete: PropTypes.func,
         handleComplete: PropTypes.func
@@ -50,7 +50,7 @@ class TodoListItem extends PureComponent {
         })
         return (
             <div>
-                <div onClick={this.onComplete}>
+                <div onClick={this.onComplete} className={styles.wrapper}>
                     <span className={textClassName}>{text}</span>
                     <span className={styles.date}>{date}</span>
                 </div>

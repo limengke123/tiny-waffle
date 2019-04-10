@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Count should render correctly 1`] = `
+<div
+  class="home"
+>
+  <div>
+    <div
+      class="count"
+    >
+      number:0
+    </div>
+    <div
+      class="sub-info"
+    >
+      time:
+    </div>
+    <div
+      class="sub-info"
+    >
+      type:
+    </div>
+    <div
+      class="sub-info"
+    >
+      step:1
+    </div>
+  </div>
+  <div>
+    <button
+      type="button"
+    >
+      -
+    </button>
+    <button
+      type="button"
+    >
+      +
+    </button>
+  </div>
+  <button
+    type="button"
+  >
+    修改增长步长
+  </button>
+</div>
+`;
