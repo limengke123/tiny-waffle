@@ -1,4 +1,4 @@
-# Tiny-waffle  &middot; [![GitHub license](https://img.shields.io/github/license/limengke123/tiny-waffle.svg)](https://github.com/limengke123/tiny-waffle/blob/master/LICENSE) ![React version](https://img.shields.io/badge/React-v16.8.6-blue.svg) ![React version](https://img.shields.io/badge/React-v16.8.6-blue.svg) ![build pass](https://www.travis-ci.org/limengke123/newBlog.svg?branch=master)
+# Tiny-waffle  &middot; [![GitHub license](https://img.shields.io/github/license/limengke123/tiny-waffle.svg)](https://github.com/limengke123/tiny-waffle/blob/master/LICENSE) ![React version](https://img.shields.io/badge/React-v16.8.6-blue.svg) ![React version](https://img.shields.io/badge/React-v16.8.6-blue.svg) ![build pass](https://www.travis-ci.org/limengke123/newBlog.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/limengke123/tiny-waffle/badge.svg?branch=master)](https://coveralls.io/github/limengke123/tiny-waffle?branch=master)
 
 `Tiny-waffle` 是一个包含了由 `React` 及 `React` 相关的三方库创建的许多 `demo` 的学习仓库. This repository is just help beginners who were not familiar with `React` to quick learn react.
 
