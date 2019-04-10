@@ -1,22 +1,22 @@
 language: node_js
 node_js: stable
 branches:
-- only: master
+  - only: master
 install:
-- yarn
+  - yarn
 before_script:
-- git config --global user.name "travis-ci"
-- git config --global user.email "752140235@qq.com"
+  - git config --global user.name "travis-ci"
+  - git config --global user.email "752140235@qq.com"
 script:
-- yarn build
-- yarn test
+  - yarn build
+  - yarn coverage:ci
 after_script:
-- cd ./build
-- git init
-- git add .
-- git commit -m "Travis-CI update docs"
-- git push --force https://${TOKEN}@${GH_REF} master:gh-pages
+  - cd ./build
+  - git init
+  - git add .
+  - git commit -m "Travis-CI update docs"
+  - git push --force https://${TOKEN}@${GH_REF} master:gh-pages
 env:
   global:
-  - GH_REF: github.com/limengke123/tiny-waffle.git
-  - secure: 2YVqqJSOQeFa2Z9HkhiPsSytaSP0z36UCxVkW2VbanN3mEeaB9AF+7LHxRC+YEm03TBMtu9oCwbOfkE1WwdoZC+hWgfjBiL+5ewHdRmTorYn2xUy26XPKNr9JJvJoivIGijnQKc6mtTTw6m1p7SoZlGDwiFZVGyV6k23Wbco5AoZBPSypkF4TkxfjrTL8vpN4C+1AMtP7YJRvmlx20SPHqeor/B/krez5F+mLv2rVzy8esJyVr5Npl1+G0x/lkqDWCpM+vQlxdXJrRC1nlpZa3stGsp9UCISloo4zyI15Xe+jb8psnEioaz1a8eOcxSzEALIPMvNUob1AKMM7UFHt++Kk/FKQvXUqlU127HC9AHyRDanBZUHAGgbjP40YIDQ8nUX5ojIeVsYjnB0kEYZi/FkG+7/51NFXXaZzybSRJah/f7noDnlmmqQfELoPNAdmPfUTV4idnz9CdLik+flUj8+ppxXhDh6vS5qEqozg06M+z0aPfQY8e+7skQHdAg0XAT/434ZWIXbT7pr5i3XPQzCkuDOeIKM3oKaqg02uS/pDHYZCByXvuhYyaZrHenWRMEprR32pPnXFxsdbnC6dIIzvxO1xryixRNazSmfdHfudFxEpfFdfr+o4S5/zN7CnRdYHk78gZkVlTBcblooVWcC3WeVrwGm8c9f3INT9f0=
+    - GH_REF: github.com/limengke123/tiny-waffle.git
+    - secure: 2YVqqJSOQeFa2Z9HkhiPsSytaSP0z36UCxVkW2VbanN3mEeaB9AF+7LHxRC+YEm03TBMtu9oCwbOfkE1WwdoZC+hWgfjBiL+5ewHdRmTorYn2xUy26XPKNr9JJvJoivIGijnQKc6mtTTw6m1p7SoZlGDwiFZVGyV6k23Wbco5AoZBPSypkF4TkxfjrTL8vpN4C+1AMtP7YJRvmlx20SPHqeor/B/krez5F+mLv2rVzy8esJyVr5Npl1+G0x/lkqDWCpM+vQlxdXJrRC1nlpZa3stGsp9UCISloo4zyI15Xe+jb8psnEioaz1a8eOcxSzEALIPMvNUob1AKMM7UFHt++Kk/FKQvXUqlU127HC9AHyRDanBZUHAGgbjP40YIDQ8nUX5ojIeVsYjnB0kEYZi/FkG+7/51NFXXaZzybSRJah/f7noDnlmmqQfELoPNAdmPfUTV4idnz9CdLik+flUj8+ppxXhDh6vS5qEqozg06M+z0aPfQY8e+7skQHdAg0XAT/434ZWIXbT7pr5i3XPQzCkuDOeIKM3oKaqg02uS/pDHYZCByXvuhYyaZrHenWRMEprR32pPnXFxsdbnC6dIIzvxO1xryixRNazSmfdHfudFxEpfFdfr+o4S5/zN7CnRdYHk78gZkVlTBcblooVWcC3WeVrwGm8c9f3INT9f0=

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.6",
+    "coveralls": "^3.0.3",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "jest-enzyme": "^7.0.2",
@@ -25,7 +26,8 @@
     "test:develop": "react-scripts test --watchAll --no-watch --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ignore-pattern '/src/serviceWorker.js'",
-    "build:view": "npm run build && npx serve -s build"
+    "build:view": "npm run build && npx serve -s build",
+    "coverage:ci": "react-scripts test --coverage --coverageReporters=text-lcov | coveralls"
   },
   "husky": {
     "hooks": {
