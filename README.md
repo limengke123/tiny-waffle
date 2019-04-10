@@ -4,10 +4,12 @@
 
 English | [简体中文](./README-zh_CN.md)
 
-* **classical demo** Using classical demo
-* **Progressive** 
-* **unit test**
-* **Continuous integration**
+* **classical demo** Creating classical demos by `React`.
+* **Progressive** The complexity of the example goes up and finally completes a complete `React` project.
+* **unit test** Using [jest](https://jestjs.io/en/) and [enzyme](https://github.com/airbnb/enzyme) to test project.
+* **Continuous integration** Using [travis.ci](https://www.travis-ci.org/) for continuous integration
+
+[view the demos on github page](http://limengke123.github.io/tiny-waffle)
 
 ## Installation
 
@@ -21,10 +23,22 @@ $ yarn
 
 # develop
 # 或者 npm run start
-$ yarn run start
+$ yarn start
 
 # build
 # or npm run build
-$ yarn run build
+$ yarn build
+
+# view build result on local environment
+# or npm run build:view
+$ yarn build:view
+
+# test
+# or npm run test
+$ yarn test
+
+# analyze
+# or npm run analyze
+$ yarn analyze
 
 ```
