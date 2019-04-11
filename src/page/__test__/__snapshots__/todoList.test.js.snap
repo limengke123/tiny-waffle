@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`todoList should render correctly 1`] = `
+<div>
+  <div>
+    <input
+      class="todo-input"
+      placeholder="请输入待办项"
+      type="text"
+      value=""
+    />
+  </div>
+  <span>
+    暂无数据
+  </span>
+</div>
+`;
