@@ -54,4 +54,16 @@ describe('todoInput', () => {
         })
         expect(onComplete).toHaveBeenCalledTimes(0)
     })
+
+    it('should not render again if props.value is not modify', () => {
+        const mockRender = jest.fn()
+        const wrapper = mount(<TodoInput value="123" />)
+        const instance = wrapper.instance()
+        instance.render = mockRender
+        expect(mockRender).toHaveBeenCalledTimes(0)
+        wrapper.setProps({ value: '456' })
+        expect(mockRender).toHaveBeenCalledTimes(1)
+        wrapper.setProps({ value: '456' })
+        expect(mockRender).toHaveBeenCalledTimes(1)
+    })
 })

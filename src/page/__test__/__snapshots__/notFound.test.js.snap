@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`notFound should render correctly 1`] = `
+<div>
+  we are lost there and find nothing, click
+  <a
+    href="/counter"
+  >
+     here 
+  </a>
+  back to home page !
+</div>
+`;

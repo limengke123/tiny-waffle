@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`todoInput should render correctly 1`] = `
+<div>
+  <input
+    class="todo-input"
+    placeholder=""
+    type="text"
+    value=""
+  />
+</div>
+`;
+
 exports[`todoInput should render correctly value 1`] = `
 <div>
   <input

@@ -12,50 +12,67 @@ describe('todoList', () => {
         expect(wrapper).toMatchSnapshot()
     })
 
-    it('should add item after trigger addTodoListItem', () => {
+    describe('addTodoListItem', () => {
         const wrapper = shallow(<TodoList />)
         const instance = wrapper.instance()
-        instance.state = {
-            todos: [],
-            inputValue: '测试文字'
-        }
-        expect(TodoList.index).toBe(0)
-        instance.addTodoListItem()
-        expect(instance.state).toMatchObject({
-            inputValue: '',
-            todos: [
-                {
-                    isComplete: false,
-                    id: 0,
-                    info: {
-                        text: '测试文字'
-                    }
-                }
-            ]
+
+        afterEach(() => {
+            instance.state = {
+                todos: [],
+                inputValue: ''
+            }
+            TodoList.index = 0
         })
-        expect(TodoList.index).toBe(1)
-        instance.state.inputValue = '测试加的第二项'
-        instance.addTodoListItem()
-        expect(instance.state).toMatchObject({
-            inputValue: '',
-            todos: [
-                {
-                    isComplete: false,
-                    id: 0,
-                    info: {
-                        text: '测试文字'
+
+        it('should add item after trigger addTodoListItem', () => {
+            instance.state = {
+                todos: [],
+                inputValue: '测试文字'
+            }
+            expect(TodoList.index).toBe(0)
+            instance.addTodoListItem()
+            expect(instance.state).toMatchObject({
+                inputValue: '',
+                todos: [
+                    {
+                        isComplete: false,
+                        id: 0,
+                        info: {
+                            text: '测试文字'
+                        }
                     }
-                },
-                {
-                    isComplete: false,
-                    id: 1,
-                    info: {
-                        text: '测试加的第二项'
+                ]
+            })
+            expect(TodoList.index).toBe(1)
+            instance.state.inputValue = '测试加的第二项'
+            instance.addTodoListItem()
+            expect(instance.state).toMatchObject({
+                inputValue: '',
+                todos: [
+                    {
+                        isComplete: false,
+                        id: 0,
+                        info: {
+                            text: '测试文字'
+                        }
+                    },
+                    {
+                        isComplete: false,
+                        id: 1,
+                        info: {
+                            text: '测试加的第二项'
+                        }
                     }
-                }
-            ]
+                ]
+            })
+            expect(TodoList.index).toBe(2)
         })
-        expect(TodoList.index).toBe(2)
+
+        it('should do not add item if inputValue is empty', () => {
+            instance.addTodoListItem()
+            expect(instance.state.todos).toHaveLength(0)
+            expect(TodoList.index).toBe(0)
+        })
     })
 
     it('should delete item after trigger deleteTodoListItem', () => {
@@ -78,5 +95,18 @@ describe('todoList', () => {
 
         instance.handleComplete({ id: 0 })
         expect(instance.state.todos[0].isComplete).toBeFalsy()
+    })
+
+    it('should update inputValue when trigger handleInputValueChange', () => {
+        const wrapper = shallow(<TodoList />)
+        const instance = wrapper.instance()
+        const mockEvent = {
+            target: {
+                value: 'test value'
+            }
+        }
+        expect(instance.state.inputValue).toBe('')
+        instance.handleInputValueChange(mockEvent)
+        expect(instance.state.inputValue).toBe('test value')
     })
 })
