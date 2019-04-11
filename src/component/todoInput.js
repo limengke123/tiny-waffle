@@ -31,7 +31,6 @@ class TodoInput extends Component {
 
     render() {
         const { value, onChange, placeholder } = this.props
-        console.log('input is render')
         return (
             <div>
                 <input

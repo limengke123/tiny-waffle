@@ -62,7 +62,6 @@ class TodoList extends Component {
     }
 
     render() {
-        console.log('todoList is render')
         const { todos, inputValue } = this.state
         return (
             <div>

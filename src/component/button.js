@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 function Button({ text, onClick }) {
-    console.log('count button render')
     return (
         <button type="button" onClick={onClick}>
             {text}

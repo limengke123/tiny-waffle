@@ -58,7 +58,6 @@ class Counter extends React.Component {
 
     render() {
         const { count } = this.state
-        console.log('count container page render')
         return (
             <div className={styles.home}>
                 <Count countInfo={count} />

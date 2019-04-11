@@ -27,7 +27,6 @@ class Count extends React.PureComponent {
     }
 
     render() {
-        console.log('count number render')
         const { countInfo } = this.props
         const { number, modifyInfo } = countInfo
         const { time, type, step } = modifyInfo

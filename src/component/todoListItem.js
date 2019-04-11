@@ -41,7 +41,6 @@ class TodoListItem extends PureComponent {
     }
 
     render() {
-        console.log('listItem is render')
         const { data } = this.props
         const { info, isComplete } = data
         const { date, text } = info
