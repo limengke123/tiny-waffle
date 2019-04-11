@@ -40,6 +40,16 @@
       "git add"
     ]
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/component/*.{js,jsx,ts,tsx}",
+      "src/page/*.{js,jsx,ts,tsx}",
+      "src/util/*.{js,jsx,ts,tsx}",
+      "src/*.{js, jsx, ts, tsx}",
+      "!src/serviceWorker.js",
+      "!src/index.js"
+    ]
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
