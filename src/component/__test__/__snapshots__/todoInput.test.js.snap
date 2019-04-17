@@ -10,25 +10,3 @@ exports[`todoInput should render correctly 1`] = `
   />
 </div>
 `;
-
-exports[`todoInput should render correctly value 1`] = `
-<div>
-  <input
-    class="todo-input"
-    placeholder=""
-    type="text"
-    value=""
-  />
-</div>
-`;
-
-exports[`todoInput should render correctly value 2`] = `
-<div>
-  <input
-    class="todo-input"
-    placeholder=""
-    type="text"
-    value="input测试文字"
-  />
-</div>
-`;

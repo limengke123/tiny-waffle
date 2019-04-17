@@ -24,6 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:develop": "react-scripts test --coverage",
+    "test:all": "react-scripts test --watchAll",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ignore-pattern '/src/serviceWorker.js'",
     "build:view": "npm run build && npx serve -s build",
