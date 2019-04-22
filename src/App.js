@@ -30,6 +30,13 @@ const AsyncNotFound = Loadable({
     }
 })
 
+const AsyncMarkDown = Loadable({
+    loader: () => import('./page/markdown'),
+    loading() {
+        return <div>Loading</div>
+    }
+})
+
 class App extends Component {
     render() {
         return (
@@ -42,11 +49,15 @@ class App extends Component {
                         <li>
                             <Link to="/todoList">待办事项</Link>
                         </li>
+                        <li>
+                            <Link to="/markdown">markdown</Link>
+                        </li>
                     </ul>
                 </nav>
                 <Switch>
                     <Route path="/todoList" component={AsyncTodoList} />
                     <Route path="/counter" component={AsyncCounter} />
+                    <Route path="/markdown" component={AsyncMarkDown} />
                     <Route path="/404" component={AsyncNotFound} />
                     <Route path="*" render={() => <Redirect to="/404" />} />
                 </Switch>
