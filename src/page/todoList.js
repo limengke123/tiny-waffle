@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { sg2ts } from 'sg2ts'
 import { TodoListItem } from '../component/todoListItem'
 import { TodoInput } from '../component/todoInput'
 import { BaseFunction, DateFunction } from '../util'
@@ -10,15 +9,6 @@ class TodoList extends Component {
     state = {
         todos: [],
         inputValue: ''
-    }
-
-    componentDidMount() {
-        const test = `
-        aaa{
-            bbb (string, optional): 开玩笑
-        }
-        `
-        console.log(sg2ts(test))
     }
 
     addTodoListItem = () => {

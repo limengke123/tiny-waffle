@@ -37,28 +37,56 @@ const AsyncMarkDown = Loadable({
     }
 })
 
+const AsyncSg2Ts = Loadable({
+    loader: () => import('./page/sg2ts'),
+    loading: () => {
+        return <div>Loading</div>
+    }
+})
+
+const wrapperNav = BaseComponent => props => {
+    return (
+        <div>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/counter">计数器</Link>
+                    </li>
+                    <li>
+                        <Link to="/todoList">待办事项</Link>
+                    </li>
+                    <li>
+                        <Link to="/markdown">markdown</Link>
+                    </li>
+                    <li>
+                        <Link to="/sg2ts">sg2ts</Link>
+                    </li>
+                </ul>
+            </nav>
+            <BaseComponent {...props} />
+        </div>
+    )
+}
+
 class App extends Component {
     render() {
         return (
             <Router>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/counter">计数器</Link>
-                        </li>
-                        <li>
-                            <Link to="/todoList">待办事项</Link>
-                        </li>
-                        <li>
-                            <Link to="/markdown">markdown</Link>
-                        </li>
-                    </ul>
-                </nav>
                 <Switch>
-                    <Route path="/todoList" component={AsyncTodoList} />
-                    <Route path="/counter" component={AsyncCounter} />
-                    <Route path="/markdown" component={AsyncMarkDown} />
-                    <Route path="/404" component={AsyncNotFound} />
+                    <Route
+                        path="/todoList"
+                        component={wrapperNav(AsyncTodoList)}
+                    />
+                    <Route
+                        path="/counter"
+                        component={wrapperNav(AsyncCounter)}
+                    />
+                    <Route
+                        path="/markdown"
+                        component={wrapperNav(AsyncMarkDown)}
+                    />
+                    <Route path="/404" component={wrapperNav(AsyncNotFound)} />
+                    <Route path="/sg2ts" component={AsyncSg2Ts} />
                     <Route path="*" render={() => <Redirect to="/404" />} />
                 </Switch>
             </Router>
