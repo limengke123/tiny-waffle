@@ -8749,6 +8749,11 @@ setprototypeof@1.1.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/setprototypeof/download/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
 
+sg2ts@^1.0.1:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/sg2ts/-/sg2ts-1.0.4.tgz#cf25ee1563a12b38b8e377d38444cc511b36e6ba"
+  integrity sha512-JAcuvb2qSokHW0y6xwqA8Ofq/y3ttyQr20PmXol2/YV10ljJb/kBxFBkLNzcBxxAoOZF76QvtPM3p9zGMXL9sg==
+
 sha.js@^2.4.0, sha.js@^2.4.8:
   version "2.4.11"
   resolved "http://registry.npm.taobao.org/sha.js/download/sha.js-2.4.11.tgz#37a5cf0b81ecbc6943de109ba2960d1b26584ae7"
