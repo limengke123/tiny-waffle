@@ -6,13 +6,13 @@ cache:
   directories:
     - node_modules
 install:
-  - yarn
+  - npm install
 before_script:
   - git config --global user.name "travis-ci"
   - git config --global user.email "752140235@qq.com"
 script:
-  - yarn build
-  - yarn coverage:ci
+  - npm run build
+  - npm run coverage:ci
 after_script:
   - cd ./build
   - git init
