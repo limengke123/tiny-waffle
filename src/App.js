@@ -7,40 +7,41 @@ import {
     Switch
 } from 'react-router-dom'
 import Loadable from 'react-loadable'
+import Skeleton from 'antd/lib/skeleton'
 import './style/App.css'
 
 const AsyncCounter = Loadable({
     loader: () => import('./page/counter'),
     loading() {
-        return <div>Loading...</div>
+        return <Skeleton active />
     }
 })
 
 const AsyncTodoList = Loadable({
     loader: () => import('./page/todoList'),
     loading() {
-        return <div>Loading...</div>
+        return <Skeleton active />
     }
 })
 
 const AsyncNotFound = Loadable({
     loader: () => import('./page/notFound'),
     loading() {
-        return <div>Loading...</div>
+        return <Skeleton active />
     }
 })
 
 const AsyncMarkDown = Loadable({
     loader: () => import('./page/markdown'),
     loading() {
-        return <div>Loading</div>
+        return <Skeleton active />
     }
 })
 
 const AsyncSg2Ts = Loadable({
     loader: () => import('./page/sg2ts'),
     loading: () => {
-        return <div>Loading</div>
+        return <Skeleton active />
     }
 })
 
