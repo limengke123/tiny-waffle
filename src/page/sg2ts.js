@@ -1,6 +1,9 @@
 import React from 'react'
 import { sg2ts } from 'sg2ts'
 import { UnControlled as CodeMirror } from 'react-codemirror2'
+import Button from 'antd/lib/button'
+import message from 'antd/lib/message'
+import { copy } from '../util'
 import styles from '../style/page/sg2ts.module.scss'
 
 export default class Sg2ts extends React.Component {
@@ -14,11 +17,26 @@ export default class Sg2ts extends React.Component {
         })
     }
 
-    render() {
+    handleCopy = () => {
+        const result = this.getResult()
+        const { error } = copy(result)
+        if (error) {
+            message.error(error)
+        } else {
+            message.success('复制成功')
+        }
+    }
+
+    getResult = () => {
         const { value } = this.state
-        const target = sg2ts(value, {
+        return sg2ts(value, {
             space: 4
         })
+    }
+
+    render() {
+        const { value } = this.state
+        const target = this.getResult()
         return (
             <div className={styles.container}>
                 <h1 className={styles.title}>
@@ -26,7 +44,11 @@ export default class Sg2ts extends React.Component {
                 </h1>
                 <main className={styles.body}>
                     <div className={styles.code}>
-                        <h2 className="center">输入swagger数据</h2>
+                        <div className={styles['sub-title-container']}>
+                            <span className={styles['sub-title']}>
+                                输入swagger数据
+                            </span>
+                        </div>
                         <CodeMirror
                             value={value}
                             // options={options}
@@ -42,7 +64,14 @@ export default class Sg2ts extends React.Component {
                         />
                     </div>
                     <div className={styles.result}>
-                        <h2 className="center">生成的typescript数据</h2>
+                        <div className={styles['sub-title-container']}>
+                            <span className={styles['sub-title']}>
+                                生成的typescript数据
+                            </span>
+                            <Button type="primary" onClick={this.handleCopy}>
+                                复制
+                            </Button>
+                        </div>
                         <CodeMirror
                             value={target}
                             options={{
