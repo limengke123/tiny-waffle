@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './style/index.css'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/theme/material.css'
+import 'codemirror/mode/javascript/javascript'
+import './style/index.scss'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
