@@ -68,7 +68,11 @@ export default class Sg2ts extends React.Component {
                             <span className={styles['sub-title']}>
                                 生成的typescript数据
                             </span>
-                            <Button type="primary" onClick={this.handleCopy}>
+                            <Button
+                                size="small"
+                                type="primary"
+                                onClick={this.handleCopy}
+                            >
                                 复制
                             </Button>
                         </div>
