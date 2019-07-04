@@ -27,6 +27,20 @@ export default class Sg2ts extends React.Component {
         }
     }
 
+    handleClear = () => {
+        const { value } = this.state
+        if (value !== '') {
+            this.setState(
+                {
+                    value: ''
+                },
+                () => {
+                    message.success('清除成功')
+                }
+            )
+        }
+    }
+
     getResult = () => {
         const { value } = this.state
         return sg2ts(value, {
@@ -48,6 +62,13 @@ export default class Sg2ts extends React.Component {
                             <span className={styles['sub-title']}>
                                 输入swagger数据
                             </span>
+                            <Button
+                                size="small"
+                                type="primary"
+                                onClick={this.handleClear}
+                            >
+                                清除
+                            </Button>
                         </div>
                         <CodeMirror
                             value={value}
