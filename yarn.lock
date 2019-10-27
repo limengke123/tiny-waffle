@@ -10495,9 +10495,9 @@ setprototypeof@1.1.1:
   integrity sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
 
 sg2ts@^1.0.1:
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/sg2ts/-/sg2ts-1.1.1.tgz#233db49602789ddb3ab482b919538e974efacd05"
-  integrity sha512-v6M2EeKQoXNHCd2v/FNu2aaotL62QegJYKq51RfjxWsZpM7YDHewhVAcPobSkx6oF28xogqbn6aqc/XpJBkzRA==
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/sg2ts/-/sg2ts-1.1.2.tgz#66ffe294e70740bf6be778a5ac45b7d29a22630d"
+  integrity sha512-vbHkoq9qpM/3kHl2HRSDQJ5scju3mF5EdP6dlFM2vCrFKkfSCXlKwtu1sqzJtYc+41W044XbwdT8UncPdvmd4Q==
 
 sha.js@^2.4.0, sha.js@^2.4.8:
   version "2.4.11"
