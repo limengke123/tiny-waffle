@@ -12,9 +12,14 @@ export default class Sg2ts extends React.Component {
     }
 
     handleChange = (editor, data, codeValue) => {
-        this.setState({
-            value: codeValue
-        })
+        const {
+            state: { value }
+        } = this
+        if (value !== codeValue) {
+            this.setState({
+                value: codeValue
+            })
+        }
     }
 
     handleCopy = () => {
@@ -49,6 +54,7 @@ export default class Sg2ts extends React.Component {
     }
 
     render() {
+        console.log('rendered')
         const { value } = this.state
         const target = this.getResult()
         return (
@@ -71,8 +77,6 @@ export default class Sg2ts extends React.Component {
                             </Button>
                         </div>
                         <CodeMirror
-                            value={value}
-                            // options={options}
                             options={{
                                 mode: 'text/javascript',
                                 theme: 'material',
