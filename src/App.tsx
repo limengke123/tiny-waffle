@@ -45,7 +45,9 @@ const AsyncSg2Ts = Loadable({
     }
 })
 
-const wrapperNav = BaseComponent => props => {
+const wrapperNav: (
+    BaseComponent: React.ComponentType<any>
+) => React.ComponentType<any> = BaseComponent => props => {
     return (
         <div>
             <nav>

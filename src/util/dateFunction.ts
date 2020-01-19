@@ -1,5 +1,5 @@
 class DateFunction {
-    static get currentTime() {
+    static get currentTime(): string {
         const date = new Date()
         const [year, month, day, hours, minutes, seconds] = [
             date.getFullYear(),
@@ -18,7 +18,7 @@ class DateFunction {
      * @param data - {string} - 原始数据
      * @return {string}
      * */
-    static padWithZero(data) {
+    static padWithZero(data: any) {
         const stringData = typeof data !== 'string' ? data.toString() : data
         return stringData.padStart(2, '0')
     }

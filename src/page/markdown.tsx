@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import MarkDownInput from '../component/markdown/markdown-input'
-import MarkDownOutput from '../component/markdown/markdown-ouput'
 import styles from '../style/page/markdown.module.scss'
+import { MarkDownInput } from '../component/markdown/markdown-input'
+import { MarkDownOutput } from '../component/markdown/markdown-ouput'
 
 function MarkDown() {
     const [text, setText] = useState('123')

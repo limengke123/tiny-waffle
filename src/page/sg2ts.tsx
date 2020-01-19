@@ -6,12 +6,16 @@ import message from 'antd/lib/message'
 import { copy } from '../util'
 import styles from '../style/page/sg2ts.module.scss'
 
-export default class Sg2ts extends React.Component {
+export interface Sg2tsState {
+    value: string
+}
+
+export default class Sg2ts extends React.Component<{}, Sg2tsState> {
     state = {
         value: ''
     }
 
-    handleChange = (editor, data, codeValue) => {
+    handleChange = (editor: any, data: any, codeValue: string) => {
         const {
             state: { value }
         } = this

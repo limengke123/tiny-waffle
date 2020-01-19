@@ -5,8 +5,10 @@ class BaseFunction {
      * @param index - {number} - 索引值
      * @return {void}
      * */
-    static removeItemFromListByIndex(data, index) {
-        index = typeof index === 'number' ? index : parseInt(index, 10)
+    static removeItemFromListByIndex(data: any[], index: number | string) {
+        if (typeof index !== 'number') {
+            index = parseInt(index, 10)
+        }
         if (Array.isArray(data) && index >= 0 && index < data.length) {
             data.splice(index, 1)
         }
@@ -19,9 +21,13 @@ class BaseFunction {
      * @param keyType - {string} - 依据的key类型 - id
      * @return {number} index
      * */
-    static getIndexFromListById(data, target, keyType = 'id') {
+    static getIndexFromListById<T extends any, S extends any>(
+        data: S[],
+        target: T,
+        keyType: keyof S = 'id'
+    ): number {
         if (Array.isArray(data)) {
-            return data.findIndex(item => item[keyType] === target)
+            return data.findIndex((item: S) => item[keyType] === target)
         }
         return -1
     }

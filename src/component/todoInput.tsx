@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { PureComponent } from 'react'
 import styles from '../style/component/todoInput.module.scss'
 
-class TodoInput extends Component {
-    static propTypes = {
-        value: PropTypes.string,
-        onComplete: PropTypes.func,
-        onChange: PropTypes.func,
-        placeholder: PropTypes.string
-    }
+export interface TodoInputProps {
+    value: string
+    onComplete: () => void
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    placeholder: string
+}
 
+export class TodoInput extends PureComponent<TodoInputProps, {}, {}> {
     static defaultProps = {
         value: '',
         onComplete() {},
@@ -17,12 +16,7 @@ class TodoInput extends Component {
         placeholder: ''
     }
 
-    shouldComponentUpdate(nextProps) {
-        const { value } = this.props
-        return nextProps.value !== value
-    }
-
-    handleKeyUp = e => {
+    handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.keyCode === 13) {
             const { onComplete } = this.props
             onComplete()
@@ -45,5 +39,3 @@ class TodoInput extends Component {
         )
     }
 }
-
-export { TodoInput }

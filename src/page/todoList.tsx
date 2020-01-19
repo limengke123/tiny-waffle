@@ -1,12 +1,29 @@
 import React, { Component } from 'react'
-import { TodoListItem } from '../component/todoListItem'
-import { TodoInput } from '../component/todoInput'
+import { TodoListItem, TodoListItemProps } from '../component/todoListItem'
+import { TodoInput, TodoInputProps } from '../component/todoInput'
 import { BaseFunction, DateFunction } from '../util'
 
-class TodoList extends Component {
-    state = {
-        todos: [],
-        inputValue: ''
+export interface TodoItem {
+    isComplete: boolean
+    id: number
+    info: {
+        text: string
+        date: string
+    }
+}
+
+export interface TodoListState {
+    todos: TodoItem[]
+    inputValue: string
+}
+
+class TodoList extends Component<any, TodoListState, any> {
+    constructor(props: any) {
+        super(props)
+        this.state = {
+            todos: [],
+            inputValue: ''
+        }
     }
 
     addTodoListItem = () => {
@@ -29,7 +46,7 @@ class TodoList extends Component {
         }
     }
 
-    deleteTodoListItem = ({ id }) => {
+    deleteTodoListItem = ({ id }: TodoListItemProps['data']) => {
         this.setState(state => {
             const index = BaseFunction.getIndexFromListById(state.todos, id)
             BaseFunction.removeItemFromListByIndex(state.todos, index)
@@ -39,7 +56,7 @@ class TodoList extends Component {
         })
     }
 
-    handleComplete = ({ id }) => {
+    handleComplete = ({ id }: TodoListItemProps['data']) => {
         this.setState(state => {
             const index = BaseFunction.getIndexFromListById(state.todos, id)
             const todo = state.todos[index]
@@ -53,7 +70,7 @@ class TodoList extends Component {
         })
     }
 
-    handleInputValueChange = e => {
+    handleInputValueChange: TodoInputProps['onChange'] = e => {
         this.setState({
             inputValue: e.target.value
         })

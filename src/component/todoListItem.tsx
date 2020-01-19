@@ -1,22 +1,15 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from '../style/component/todoListItem.module.scss'
+import { TodoItem } from '../page/todoList'
 
-class TodoListItem extends PureComponent {
-    static propTypes = {
-        data: PropTypes.shape({
-            info: PropTypes.shape({
-                text: PropTypes.string,
-                date: PropTypes.string
-            }),
-            isComplete: PropTypes.bool,
-            id: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-        }),
-        handleDelete: PropTypes.func,
-        handleComplete: PropTypes.func
-    }
+export interface TodoListItemProps {
+    data: TodoItem
+    handleDelete: (data: TodoListItemProps['data']) => void
+    handleComplete: (data: TodoListItemProps['data']) => void
+}
 
+export class TodoListItem extends PureComponent<TodoListItemProps> {
     static defaultProps = {
         data: {
             isComplete: false,
@@ -60,5 +53,3 @@ class TodoListItem extends PureComponent {
         )
     }
 }
-
-export { TodoListItem }

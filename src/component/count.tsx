@@ -1,31 +1,12 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styles from '../style/component/count.module.scss'
+import { CounterState } from '../page/counter'
 
-class Count extends React.PureComponent {
-    static propTypes = {
-        countInfo: PropTypes.shape({
-            number: PropTypes.number,
-            modifyInfo: PropTypes.shape({
-                time: PropTypes.string,
-                type: PropTypes.string,
-                step: PropTypes.number
-            })
-        })
-    }
+export interface CountProps {
+    countInfo: CounterState['count']
+}
 
-    static defaultProps = {
-        countInfo: {
-            number: 0,
-            modifyInfo: {
-                time: '',
-                type: '',
-                step: 1
-            }
-            // step: 1
-        }
-    }
-
+export class Count extends React.PureComponent<CountProps> {
     render() {
         const { countInfo } = this.props
         const { number, modifyInfo } = countInfo
@@ -52,5 +33,3 @@ class Count extends React.PureComponent {
         )
     }
 }
-
-export { Count }

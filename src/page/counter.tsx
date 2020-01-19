@@ -4,7 +4,18 @@ import { Count } from '../component/count'
 import styles from '../style/page/home.module.scss'
 import { DateFunction } from '../util'
 
-class Counter extends React.Component {
+export interface CounterState {
+    count: {
+        number: number
+        modifyInfo: {
+            time: string
+            type: string
+            step: number
+        }
+    }
+}
+
+class Counter extends React.Component<{}, CounterState> {
     state = {
         count: {
             number: 0,
