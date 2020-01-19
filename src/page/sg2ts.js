@@ -54,8 +54,6 @@ export default class Sg2ts extends React.Component {
     }
 
     render() {
-        console.log('rendered')
-        const { value } = this.state
         const target = this.getResult()
         return (
             <div className={styles.container}>

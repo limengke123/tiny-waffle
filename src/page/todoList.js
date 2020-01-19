@@ -4,8 +4,6 @@ import { TodoInput } from '../component/todoInput'
 import { BaseFunction, DateFunction } from '../util'
 
 class TodoList extends Component {
-    static index = 0
-
     state = {
         todos: [],
         inputValue: ''
@@ -60,6 +58,8 @@ class TodoList extends Component {
             inputValue: e.target.value
         })
     }
+
+    static index = 0
 
     render() {
         const { todos, inputValue } = this.state

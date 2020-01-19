@@ -5,7 +5,6 @@ import styles from '../style/page/markdown.module.scss'
 
 function MarkDown() {
     const [text, setText] = useState('123')
-    console.log(text)
     return (
         <div className={styles.container}>
             <MarkDownInput text={text} changeText={setText} />
