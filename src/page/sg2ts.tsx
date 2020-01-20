@@ -1,6 +1,6 @@
 import React from 'react'
 import { sg2ts } from 'sg2ts'
-import { UnControlled as CodeMirror } from 'react-codemirror2'
+import { Controlled } from 'react-codemirror2'
 import Button from 'antd/lib/button'
 import message from 'antd/lib/message'
 import { copy } from '../util'
@@ -58,6 +58,7 @@ export default class Sg2ts extends React.Component<{}, Sg2tsState> {
     }
 
     render() {
+        const { value } = this.state
         const target = this.getResult()
         return (
             <div className={styles.container}>
@@ -78,16 +79,16 @@ export default class Sg2ts extends React.Component<{}, Sg2tsState> {
                                 清除
                             </Button>
                         </div>
-                        <CodeMirror
+                        <Controlled
+                            value={value}
                             options={{
                                 mode: 'text/javascript',
                                 theme: 'material',
                                 lineNumbers: true,
-                                matchBrackets: true,
-                                lineWrapping: true,
-                                styleActiveLine: true
+                                lineWrapping: true
                             }}
-                            onChange={this.handleChange}
+                            onBeforeChange={this.handleChange}
+                            // onChange={this.handleChange}
                         />
                     </div>
                     <div className={styles.result}>
@@ -103,16 +104,15 @@ export default class Sg2ts extends React.Component<{}, Sg2tsState> {
                                 复制
                             </Button>
                         </div>
-                        <CodeMirror
+                        <Controlled
+                            onBeforeChange={() => {}}
                             value={target}
                             options={{
                                 mode: 'text/typescript',
                                 lineNumbers: true,
                                 theme: 'material',
                                 readOnly: true,
-                                lineWrapping: true,
-                                styleActiveLine: true,
-                                matchBrackets: true
+                                lineWrapping: true
                             }}
                         />
                     </div>

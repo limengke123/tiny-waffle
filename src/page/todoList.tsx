@@ -1,23 +1,18 @@
-import React, { Component } from 'react'
-import { TodoListItem, TodoListItemProps } from '../component/todoListItem'
+import React from 'react'
+import {
+    TodoItem,
+    TodoListItem,
+    TodoListItemProps
+} from '../component/todoListItem'
 import { TodoInput, TodoInputProps } from '../component/todoInput'
 import { BaseFunction, DateFunction } from '../util'
 
-export interface TodoItem {
-    isComplete: boolean
-    id: number
-    info: {
-        text: string
-        date: string
-    }
-}
-
-export interface TodoListState {
+interface TodoListState {
     todos: TodoItem[]
     inputValue: string
 }
 
-class TodoList extends Component<any, TodoListState, any> {
+export default class TodoList extends React.Component<any, TodoListState, any> {
     constructor(props: any) {
         super(props)
         this.state = {
@@ -101,5 +96,3 @@ class TodoList extends Component<any, TodoListState, any> {
         )
     }
 }
-
-export default TodoList
