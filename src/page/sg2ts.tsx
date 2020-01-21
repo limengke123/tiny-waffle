@@ -6,15 +6,16 @@ import message from 'antd/lib/message'
 import { copy } from '../util'
 import styles from '../style/page/sg2ts.module.scss'
 
+const getResult = (value: string) => {
+    return sg2ts(value, {
+        space: 4
+    })
+}
+
 export default function Sg2ts() {
     const [value, setValue] = useState('')
-    const getResult = () => {
-        return sg2ts(value, {
-            space: 4
-        })
-    }
     const handleCopy = () => {
-        const result = getResult()
+        const result = getResult(value)
         const { error } = copy(result)
         if (error) {
             message.error(error)
@@ -33,7 +34,7 @@ export default function Sg2ts() {
             setValue(codeValue)
         }
     }
-    const target = useMemo(getResult, [value])
+    const target = useMemo(() => getResult(value), [value])
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>
