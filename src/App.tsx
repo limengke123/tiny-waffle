@@ -45,6 +45,11 @@ const AsyncSg2Ts = Loadable({
     }
 })
 
+const Trading = Loadable({
+    loader: () => import('./page/trading'),
+    loading: () => <Skeleton active />
+})
+
 const wrapperNav: (
     BaseComponent: React.ComponentType<any>
 ) => React.ComponentType<any> = BaseComponent => props => {
@@ -63,6 +68,9 @@ const wrapperNav: (
                     </li>
                     <li>
                         <Link to="/sg2ts">sg2ts</Link>
+                    </li>
+                    <li>
+                        <Link to="/trading">网格交易策略</Link>
                     </li>
                 </ul>
             </nav>
@@ -90,6 +98,7 @@ class App extends Component {
                     />
                     <Route path="/404" component={wrapperNav(AsyncNotFound)} />
                     <Route path="/sg2ts" component={AsyncSg2Ts} />
+                    <Route path="/trading" component={Trading} />
                     <Route path="*" render={() => <Redirect to="/404" />} />
                 </Switch>
             </Router>
