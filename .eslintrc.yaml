@@ -61,3 +61,5 @@ rules:
   spaced-comment: 0
   # 没有用的参数给提醒就可以了
   no-unused-vars: 0
+  no-dupe-class-members: 0
+  lines-between-class-members: 0

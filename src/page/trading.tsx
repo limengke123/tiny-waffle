@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { Table, Form, InputNumber, Layout, Button } from 'antd'
 import { ColumnProps } from 'antd/es/table'
+import NP from 'number-precision'
 import { TradeInfoView, TradingStore } from '../store/TradingStore'
+
+const { divide, times } = NP
 
 const { Sider, Header, Content } = Layout
 
@@ -12,9 +15,9 @@ const columns: ColumnProps<TradeInfoView>[] = [
         dataIndex: 'currentGear'
     },
     {
-        key: 'buyingPrice',
+        key: 'buyingPriceString',
         title: '买入价格',
-        dataIndex: 'buyingPrice'
+        dataIndex: 'buyingPriceString'
     },
     {
         key: 'buyingQuantity',
@@ -22,14 +25,13 @@ const columns: ColumnProps<TradeInfoView>[] = [
         dataIndex: 'buyingQuantity'
     },
     {
-        key: 'buyingMoney',
+        key: 'buyingMoneyString',
         title: '买入金额',
-        dataIndex: 'buyingMoney'
+        dataIndex: 'buyingMoneyString'
     }
 ]
 
 function TradeTable(props: { store: TradingStore }) {
-    // const store = new TradingStore()
     const { store } = props
     return (
         <Table<TradeInfoView>
@@ -48,38 +50,6 @@ function TradeForm(props: {
     handleChange: (type: string, value: number | undefined) => void
     handleGenerate: () => void
 }) {
-    // const [basePrice, setPrice] = useState(1)
-    // const [amplitudeInterval, setAmplitudeInterval] = useState(0.05)
-    // const [investment, setInvestment] = useState(500)
-    // const [maxGear, setMaxGear] = useState(6)
-    // const handleBasePriceChange = function(value: number | undefined) {
-    //     if (value) {
-    //         setPrice(value)
-    //     } else {
-    //         setPrice(1)
-    //     }
-    // }
-    // const handleAmplitudeIntervalChange = function(value: number | undefined) {
-    //     if (value) {
-    //         setAmplitudeInterval(value)
-    //     } else {
-    //         setAmplitudeInterval(0.05)
-    //     }
-    // }
-    // const handleInvestmentChange = function(value: number | undefined) {
-    //     if (value) {
-    //         setInvestment(value)
-    //     } else {
-    //         setInvestment(500)
-    //     }
-    // }
-    // const handleMaxGearChange = function(value: number | undefined) {
-    //     if (value) {
-    //         setMaxGear(value)
-    //     } else {
-    //         setMaxGear(6)
-    //     }
-    // }
     const {
         basePrice,
         maxGear,
@@ -111,7 +81,11 @@ function TradeForm(props: {
             </Form.Item>
             <Form.Item label="网格大小">
                 <InputNumber
-                    value={amplitudeInterval}
+                    min={0}
+                    max={100}
+                    formatter={value => `${value}%`}
+                    parser={value => (value ? value.replace('%', '') : 0)}
+                    value={times(amplitudeInterval, 100)}
                     onChange={value => handleChange('amplitudeInterval', value)}
                     placeholder="input placeholder"
                 />
@@ -133,7 +107,6 @@ function TradeForm(props: {
 }
 
 export default function Trading() {
-    // const store = new TradingStore()
     const [basePrice, setPrice] = useState(1)
     const [amplitudeInterval, setAmplitudeInterval] = useState(0.05)
     const [investment, setInvestment] = useState(500)
@@ -149,7 +122,7 @@ export default function Trading() {
                     setInvestment(value)
                     break
                 case 'amplitudeInterval':
-                    setAmplitudeInterval(value)
+                    setAmplitudeInterval(divide(value, 100))
                     break
                 case 'maxGear':
                     setMaxGear(value)

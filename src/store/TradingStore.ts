@@ -1,7 +1,14 @@
+import NP from 'number-precision'
+
+const { times, minus, plus, divide } = NP
+NP.enableBoundaryChecking(false)
+
 export interface TradeInfoView {
     buyingPrice: number // 买入价格
+    buyingPriceString: string // 买入价格的字符串，方便显示小数点
     buyingQuantity: number // 买入股数
     buyingMoney: number // 买入金额
+    buyingMoneyString: string // 买入金额的字符串
     currentGear: number // 档位
 }
 
@@ -30,21 +37,69 @@ export class TradingStore {
         let buyingQuantity: number = 0
         let currentGear: number = this.gear
         while (currentGear <= this.maxGear) {
-            buyingPrice =
-                this.basePrice - (currentGear - 1) * this.amplitudeInterval
-            buyingMoney =
-                this.investment *
-                (1 + (currentGear - 1) * this.amplitudeInterval)
-            buyingQuantity = buyingMoney / buyingPrice
+            buyingPrice = times(
+                this.basePrice,
+                minus(1, times(minus(currentGear, 1), this.amplitudeInterval))
+            )
+            console.log(buyingPrice)
+            const expectedBuyingMoney = times(
+                this.investment,
+                plus(1, times(minus(currentGear, 1), this.amplitudeInterval))
+            )
+            buyingQuantity = TradingStore.computedRealBuyingQuantity(
+                divide(expectedBuyingMoney, buyingPrice)
+            )
+            buyingMoney = times(buyingQuantity, buyingPrice)
             resultList.push({
-                buyingPrice,
-                buyingMoney,
+                buyingPrice: TradingStore.contractData(buyingPrice),
+                buyingPriceString: TradingStore.contractData(
+                    buyingPrice,
+                    3,
+                    true
+                ),
+                buyingMoney: TradingStore.contractData(buyingMoney, 2),
+                buyingMoneyString: TradingStore.contractData(
+                    buyingMoney,
+                    2,
+                    true
+                ),
                 buyingQuantity,
                 currentGear
             })
             currentGear++
         }
         return resultList
+    }
+
+    static computedRealBuyingQuantity(expectedQuantity: number): number {
+        // 由于股票买入必须是 100 的整数倍，这里传入的预期买入股票数量不一定是 100 整数, 这里需要偏差处理一下，获得最终的买入股数
+        const baseQuantity = times(~~(expectedQuantity / 100), 100)
+        const diff = minus(expectedQuantity, baseQuantity)
+        if (diff >= 50) {
+            return plus(baseQuantity, 100)
+        }
+        return baseQuantity
+    }
+
+    static contractData(data: number): number
+    static contractData(data: number, fractionDigits: number): number
+    static contractData<T = string | number>(
+        data: number,
+        fractionDigits: number,
+        returnString: boolean
+    ): T
+
+    static contractData(
+        data: number,
+        fractionDigits: number = 3,
+        returnString: boolean = true
+    ) {
+        // 默认数据保留三位小数
+        const result = data.toFixed(fractionDigits)
+        if (returnString) {
+            return result
+        }
+        return parseFloat(result)
     }
 
     constructor(props?: TradingStoreProps) {
