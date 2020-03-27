@@ -41,7 +41,6 @@ export class TradingStore {
                 this.basePrice,
                 minus(1, times(minus(currentGear, 1), this.amplitudeInterval))
             )
-            console.log(buyingPrice)
             const expectedBuyingMoney = times(
                 this.investment,
                 plus(1, times(minus(currentGear, 1), this.amplitudeInterval))
