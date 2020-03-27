@@ -19,7 +19,7 @@ export function TradeInfo(props: { store: TradingStore }) {
     const maxGear = store.getMaxGear()
     const maxDrop = times(minus(maxGear, 1), amplitudeInterval)
     const maxRequireMoney = store
-        .getTradingList()
+        .getBuyTradingList()
         .reduce((accumulation, item) => plus(accumulation, item.buyingMoney), 0)
     return (
         <Descriptions bordered>

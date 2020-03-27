@@ -1,9 +1,9 @@
 import { ColumnProps } from 'antd/es/table'
 import { Table } from 'antd'
 import React from 'react'
-import { TradeInfoView, TradingStore } from '../../store/TradingStore'
+import { BuyTradeInfoView, TradingStore } from '../../store/TradingStore'
 
-const columns: ColumnProps<TradeInfoView>[] = [
+const columns: ColumnProps<BuyTradeInfoView>[] = [
     {
         key: 'currentGear',
         title: '档位',
@@ -29,9 +29,9 @@ const columns: ColumnProps<TradeInfoView>[] = [
 export function TradeTable(props: { store: TradingStore }) {
     const { store } = props
     return (
-        <Table<TradeInfoView>
+        <Table<BuyTradeInfoView>
             rowKey="buyingPrice"
-            dataSource={store.getTradingList()}
+            dataSource={store.getBuyTradingList()}
             columns={columns}
         />
     )

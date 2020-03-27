@@ -20,11 +20,6 @@ export function TradeForm(props: {
         handleChange,
         handleGenerate
     } = props
-    const handleGenerateData: React.MouseEventHandler<HTMLElement> = function(
-        e
-    ) {
-        handleGenerate()
-    }
     return (
         <Form layout="inline">
             <Form.Item label="初始基金价格">
@@ -60,7 +55,7 @@ export function TradeForm(props: {
                 />
             </Form.Item>
             <Form.Item>
-                <Button onClick={handleGenerateData} type="primary">
+                <Button onClick={handleGenerate} type="primary">
                     生成
                 </Button>
             </Form.Item>

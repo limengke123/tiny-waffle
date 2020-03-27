@@ -3,12 +3,21 @@ import NP from 'number-precision'
 const { times, minus, plus, divide } = NP
 NP.enableBoundaryChecking(false)
 
-export interface TradeInfoView {
+export interface BuyTradeInfoView {
     buyingPrice: number // 买入价格
     buyingPriceString: string // 买入价格的字符串，方便显示小数点
     buyingMoney: number // 买入金额
     buyingMoneyString: string // 买入金额的字符串
     buyingQuantity: number // 买入股数
+    currentGear: number // 档位
+}
+
+export interface SellTradeInfoView {
+    sellPrice: number // 卖出价格
+    sellPriceString: string // 卖出价格的字符串
+    sellMoney: number // 卖出金额
+    sellMoneyString: string // 卖出金额字符串
+    sellQuantity: number // 卖出股数
     currentGear: number // 档位
 }
 
@@ -30,8 +39,8 @@ export class TradingStore {
 
     private maxGear: number = 6 //最低极限档位 默认 6档
 
-    public getTradingList(): TradeInfoView[] {
-        const resultList: TradeInfoView[] = []
+    public getBuyTradingList(): BuyTradeInfoView[] {
+        const resultList: BuyTradeInfoView[] = []
         let buyingPrice: number = this.basePrice
         let buyingMoney: number = this.investment
         let buyingQuantity: number = 0
@@ -66,6 +75,29 @@ export class TradingStore {
                 currentGear
             })
             currentGear++
+        }
+        return resultList
+    }
+
+    public getSellTradingList(): SellTradeInfoView[] {
+        const resultList: SellTradeInfoView[] = []
+        let sellPrice: number = this.basePrice
+        let sellMoney: number = this.investment
+        let sellQuantity: number = 0
+        let currentGear: number = this.gear
+        while (currentGear <= this.maxGear) {
+            sellPrice = times(
+                times(this.basePrice, plus(1, this.amplitudeInterval)),
+                minus(1, times(minus(currentGear, 1), this.amplitudeInterval))
+            )
+            resultList.push({
+                sellMoney,
+                sellMoneyString: TradingStore.contractData(sellMoney, 2, true),
+                sellPrice,
+                sellPriceString: TradingStore.contractData(sellPrice, 3, true),
+                currentGear,
+                sellQuantity
+            })
         }
         return resultList
     }
