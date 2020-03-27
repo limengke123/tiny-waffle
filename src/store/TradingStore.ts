@@ -6,9 +6,9 @@ NP.enableBoundaryChecking(false)
 export interface TradeInfoView {
     buyingPrice: number // 买入价格
     buyingPriceString: string // 买入价格的字符串，方便显示小数点
-    buyingQuantity: number // 买入股数
     buyingMoney: number // 买入金额
     buyingMoneyString: string // 买入金额的字符串
+    buyingQuantity: number // 买入股数
     currentGear: number // 档位
 }
 
