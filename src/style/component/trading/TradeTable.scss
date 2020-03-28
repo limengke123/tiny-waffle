@@ -1,0 +1,12 @@
+.trade-table {
+    .ant-table-tbody
+        > tr:not(.ant-table-expanded-row):not(.ant-table-row-selected)
+        > td {
+        &.middle {
+            background: #fbffe6;
+        }
+        &.large {
+            background: #ffe6e6;
+        }
+    }
+}

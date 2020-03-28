@@ -4,10 +4,12 @@ import React from 'react'
 import NP from 'number-precision'
 import {
     BuyTradeInfoView,
+    intervalEnum,
     intervalSizeMap,
     TradingStore
 } from '../../store/TradingStore'
 import { compose } from '../../util/rambda'
+import '../../style/component/trading/TradeTable.scss'
 
 const { times } = NP
 
@@ -29,24 +31,30 @@ const defaultTradeInfoUIView: TradeInfoUIView = {
 
 interface ComposeTradeInfoView extends BuyTradeInfoView, TradeInfoUIView {}
 
+const classNameByIntervalSize: { [k in intervalEnum]: string } = {
+    [intervalEnum.small]: '',
+    [intervalEnum.middle]: 'middle',
+    [intervalEnum.large]: 'large'
+}
+
 const getRender = function<
     T extends ComposeTradeInfoView,
     K extends keyof ComposeTradeInfoView,
     K1 extends keyof TradeInfoUIView
 >(
-    key: K1,
-    mergeRows: boolean = true,
-    callback?: (data: T[K], record: T) => React.ReactNode
+    callback?: (data: T[K], record: T) => React.ReactNode,
+    key?: K1,
+    mergeRows: boolean = true
 ) {
     return function(data: T[K], record: T) {
         const node: {
             children: React.ReactNode
-            props: { rowSpan?: number }
+            props: { rowSpan?: number; className?: string }
         } = {
             children: callback ? callback(data, record) : data,
-            props: {}
+            props: { className: classNameByIntervalSize[record.intervalSize] }
         }
-        if (mergeRows) {
+        if (mergeRows && key) {
             node.props.rowSpan = record[key]
         }
         return node
@@ -57,18 +65,22 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
     {
         title: '档位',
         dataIndex: 'currentGear',
-        render: getRender('currentGearRowSpan', true, (_, record) => {
-            return `${times(record.rate, 100)}%`
-        }),
+        render: getRender(
+            (_, record) => {
+                return `${times(record.rate, 100)}%`
+            },
+            'currentGearRowSpan',
+            true
+        ),
         width: 80
     },
     {
         key: 'intervalSize',
         title: '网格大小',
         render: getRender(
+            (_, record) => intervalSizeMap.get(record.intervalSize) || '未知',
             'intervalSizeRowSpan',
-            false,
-            (_, record) => intervalSizeMap.get(record.intervalSize) || '未知'
+            false
         ),
         width: 100
     },
@@ -78,24 +90,28 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
             {
                 title: '触发买入价格',
                 key: 'buyingTriggerPrice',
-                render: getRender('buyingPriceRowSpan', false, (_, record) => {
-                    return record.buyingPrice
-                })
+                render: getRender(
+                    (_, record) => {
+                        return record.buyingPrice
+                    },
+                    'buyingPriceRowSpan',
+                    false
+                )
             },
             {
                 title: '买入价格',
                 dataIndex: 'buyingPrice',
-                render: getRender('buyingPriceRowSpan', false)
+                render: getRender(undefined, undefined, false)
             },
             {
                 title: '买入股数',
                 dataIndex: 'buyingQuantity',
-                render: getRender('buyingQuantityRowSpan', false)
+                render: getRender(undefined, undefined, false)
             },
             {
                 title: '买入金额(¥)',
                 dataIndex: 'buyingMoney',
-                render: getRender('buyingMoneyRowSpan', false)
+                render: getRender(undefined, undefined, false)
             }
         ]
     }
@@ -170,6 +186,7 @@ export function TradeTable(props: { store: TradingStore }) {
     const rawDataList = store.getBuyTradingList()
     return (
         <Table<ComposeTradeInfoView>
+            className="trade-table"
             rowKey={record => `${record.buyingPrice}|${record.intervalSize}`}
             bordered
             dataSource={injectUIDataIntoRawData(rawDataList)}
