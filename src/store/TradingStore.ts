@@ -5,15 +5,12 @@ NP.enableBoundaryChecking(false)
 
 export interface BuyTradeInfoView {
     buyingPrice: number // 买入价格
-    // buyingPriceString: string // 买入价格的字符串，方便显示小数点
     buyingMoney: number // 买入金额
-    // buyingMoneyString: string // 买入金额的字符串
     buyingQuantity: number // 买入股数
     currentGear: number // 档位
     rate: number // 对应下降的比例
 
     intervalSize: intervalEnum // 网格大小
-    // smallIntervalRowSpan: number
 }
 
 export enum intervalEnum {
@@ -87,7 +84,7 @@ export class TradingStore {
         )
         const buyingMoney = times(buyingQuantity, buyingPrice)
         const data: BuyTradeInfoView = {
-            buyingPrice: TradingStore.contractData(buyingPrice),
+            buyingPrice: TradingStore.contractData(buyingPrice, 3, false),
             buyingMoney: TradingStore.contractData(buyingMoney, 2),
             buyingQuantity,
             currentGear,

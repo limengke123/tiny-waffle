@@ -11,7 +11,7 @@ import {
 import { compose } from '../../util/rambda'
 import '../../style/component/trading/TradeTable.scss'
 
-const { times } = NP
+const { times, plus } = NP
 
 interface TradeInfoUIView {
     intervalSizeRowSpan: number
@@ -92,7 +92,7 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
                 key: 'buyingTriggerPrice',
                 render: getRender(
                     (_, record) => {
-                        return record.buyingPrice
+                        return plus(record.buyingPrice, 0.001)
                     },
                     'buyingPriceRowSpan',
                     false
@@ -104,13 +104,13 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
                 render: getRender(undefined, undefined, false)
             },
             {
-                title: '买入股数',
-                dataIndex: 'buyingQuantity',
+                title: '买入金额(¥)',
+                dataIndex: 'buyingMoney',
                 render: getRender(undefined, undefined, false)
             },
             {
-                title: '买入金额(¥)',
-                dataIndex: 'buyingMoney',
+                title: '买入股数',
+                dataIndex: 'buyingQuantity',
                 render: getRender(undefined, undefined, false)
             }
         ]
@@ -165,7 +165,6 @@ const curringGroupDataByKey = function<
 const injectUIDataIntoRawData = function(
     data: BuyTradeInfoView[]
 ): ComposeTradeInfoView[] {
-    console.log(data)
     const preProcessList = data.map<ComposeTradeInfoView>(item => ({
         ...item,
         ...defaultTradeInfoUIView
@@ -177,7 +176,6 @@ const injectUIDataIntoRawData = function(
         curringGroupDataByKey('buyingQuantity', 'buyingQuantityRowSpan'),
         curringGroupDataByKey('buyingMoney', 'buyingMoneyRowSpan')
     )
-    console.log(composedProcess(preProcessList))
     return composedProcess(preProcessList)
 }
 
