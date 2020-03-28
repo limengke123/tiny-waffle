@@ -11,10 +11,12 @@ const { divide } = NP
 const { Sider, Header, Content, Footer } = Layout
 
 export default function Trading() {
-    const [basePrice, setPrice] = useState(1)
-    const [amplitudeInterval, setAmplitudeInterval] = useState(0.05)
-    const [investment, setInvestment] = useState(500)
-    const [maxGear, setMaxGear] = useState(6)
+    const [basePrice, setPrice] = useState(TradingStore.defaultBasePrice)
+    const [amplitudeInterval, setAmplitudeInterval] = useState(
+        TradingStore.defaultAmplitudeInterval
+    )
+    const [investment, setInvestment] = useState(TradingStore.defaultInvestment)
+    const [maxGear, setMaxGear] = useState(TradingStore.defaultMaxGear)
     const [store, setStore] = useState(new TradingStore())
     const handleChange = function(type: string, value: number | undefined) {
         if (value) {
@@ -37,11 +39,12 @@ export default function Trading() {
         }
     }
     const handleGenerate = function() {
-        const newStore = new TradingStore()
-        newStore.setAmplitudeInterval(amplitudeInterval)
-        newStore.setBasePrice(basePrice)
-        newStore.setInvestment(investment)
-        newStore.setMaxGear(maxGear)
+        const newStore = new TradingStore({
+            amplitudeInterval,
+            basePrice,
+            investment,
+            maxGear
+        })
         setStore(newStore)
     }
     return (

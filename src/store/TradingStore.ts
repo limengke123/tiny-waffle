@@ -1,16 +1,32 @@
 import NP from 'number-precision'
 
-const { times, minus, plus, divide } = NP
+const { times, minus, plus, divide, strip } = NP
 NP.enableBoundaryChecking(false)
 
 export interface BuyTradeInfoView {
     buyingPrice: number // 买入价格
-    buyingPriceString: string // 买入价格的字符串，方便显示小数点
+    // buyingPriceString: string // 买入价格的字符串，方便显示小数点
     buyingMoney: number // 买入金额
-    buyingMoneyString: string // 买入金额的字符串
+    // buyingMoneyString: string // 买入金额的字符串
     buyingQuantity: number // 买入股数
     currentGear: number // 档位
+    rate: number // 对应下降的比例
+
+    intervalSize: intervalEnum // 网格大小
+    // smallIntervalRowSpan: number
 }
+
+export enum intervalEnum {
+    small = 1,
+    middle = 2,
+    large = 3
+}
+
+export const intervalSizeMap = new Map<intervalEnum, string>([
+    [intervalEnum.small, '小网'],
+    [intervalEnum.middle, '中网'],
+    [intervalEnum.large, '大网']
+])
 
 export interface SellTradeInfoView {
     sellPrice: number // 卖出价格
@@ -22,84 +38,90 @@ export interface SellTradeInfoView {
 }
 
 export interface TradingStoreProps {
-    basePrice: number
-    amplitudeInterval: number
-    investment: number
-    maxGear: number
+    basePrice?: number
+    amplitudeInterval?: number
+    investment?: number
+    maxGear?: number
 }
 
 export class TradingStore {
-    private basePrice: number = 1 // 基础价位
+    static defaultBasePrice = 1
+    static defaultAmplitudeInterval = 0.05
+    static defaultInvestment = 1000
+    static defaultAdditionalRate = 0.05
+    static defaultMaxGear = 9
+    static defaultMiddleAmplitudeInterval = 0.15
+    static defaultLargeAmplitudeInterval = 0.3
 
-    private amplitudeInterval: number = 0.05 // 网格大小 默认 5%
+    private basePrice: number = TradingStore.defaultBasePrice // 基础价位
+    private amplitudeInterval: number = TradingStore.defaultAmplitudeInterval // 网格大小 默认 5%
+    private investment: number = TradingStore.defaultInvestment // 初始买入价格 默认 500
+    private maxGear: number = TradingStore.defaultMaxGear //最低极限档位 默认 6档
 
-    private investment: number = 500 // 初始买入价格 默认 500
-
-    private gear: number = 1 // 当前档位
-
-    private maxGear: number = 6 //最低极限档位 默认 6档
+    private gear: number = 1 // 当前档位 这个字段暂时无用
+    private additionalRate: number = TradingStore.defaultAdditionalRate // 每下降一个档位，增加投入的金额比例 不支持配置
+    private middleAmplitudeInterval: number =
+        TradingStore.defaultMiddleAmplitudeInterval
+    private largeAmplitudeInterval: number =
+        TradingStore.defaultLargeAmplitudeInterval
 
     public getBuyTradingList(): BuyTradeInfoView[] {
         const resultList: BuyTradeInfoView[] = []
-        let buyingPrice: number = this.basePrice
-        let buyingMoney: number = this.investment
-        let buyingQuantity: number = 0
         let currentGear: number = this.gear
         while (currentGear <= this.maxGear) {
-            buyingPrice = times(
-                this.basePrice,
-                minus(1, times(minus(currentGear, 1), this.amplitudeInterval))
-            )
-            const expectedBuyingMoney = times(
-                this.investment,
-                plus(1, times(minus(currentGear, 1), this.amplitudeInterval))
-            )
-            buyingQuantity = TradingStore.computedRealBuyingQuantity(
-                divide(expectedBuyingMoney, buyingPrice)
-            )
-            buyingMoney = times(buyingQuantity, buyingPrice)
-            resultList.push({
-                buyingPrice: TradingStore.contractData(buyingPrice),
-                buyingPriceString: TradingStore.contractData(
-                    buyingPrice,
-                    3,
-                    true
-                ),
-                buyingMoney: TradingStore.contractData(buyingMoney, 2),
-                buyingMoneyString: TradingStore.contractData(
-                    buyingMoney,
-                    2,
-                    true
-                ),
-                buyingQuantity,
-                currentGear
-            })
+            resultList.push(...this.getTradeInfoByGear(currentGear))
             currentGear++
         }
         return resultList
     }
 
-    public getSellTradingList(): SellTradeInfoView[] {
-        const resultList: SellTradeInfoView[] = []
-        let sellPrice: number = this.basePrice
-        let sellMoney: number = this.investment
-        let sellQuantity: number = 0
-        let currentGear: number = this.gear
-        while (currentGear <= this.maxGear) {
-            sellPrice = times(
-                times(this.basePrice, plus(1, this.amplitudeInterval)),
-                minus(1, times(minus(currentGear, 1), this.amplitudeInterval))
-            )
+    private getTradeInfoByGear(currentGear: number): BuyTradeInfoView[] {
+        const resultList: BuyTradeInfoView[] = []
+        const rate = strip(1 - (currentGear - 1) * this.amplitudeInterval)
+        const buyingPrice = strip(this.basePrice * rate)
+        const expectedBuyingMoney = strip(
+            this.investment * (1 + this.additionalRate * (currentGear - 1))
+        )
+        const buyingQuantity = TradingStore.computedRealBuyingQuantity(
+            divide(expectedBuyingMoney, buyingPrice)
+        )
+        const buyingMoney = times(buyingQuantity, buyingPrice)
+        const data: BuyTradeInfoView = {
+            buyingPrice: TradingStore.contractData(buyingPrice),
+            buyingMoney: TradingStore.contractData(buyingMoney, 2),
+            buyingQuantity,
+            currentGear,
+            rate,
+            intervalSize: intervalEnum.small
+        }
+        resultList.push(data)
+        if (
+            TradingStore.checkIntervalByRate(rate, this.middleAmplitudeInterval)
+        ) {
             resultList.push({
-                sellMoney,
-                sellMoneyString: TradingStore.contractData(sellMoney, 2, true),
-                sellPrice,
-                sellPriceString: TradingStore.contractData(sellPrice, 3, true),
-                currentGear,
-                sellQuantity
+                ...data,
+                intervalSize: intervalEnum.middle
+            })
+        }
+        if (
+            TradingStore.checkIntervalByRate(rate, this.largeAmplitudeInterval)
+        ) {
+            resultList.push({
+                ...data,
+                intervalSize: intervalEnum.large
             })
         }
         return resultList
+    }
+
+    static checkIntervalByRate(rate: number, interval: number): boolean {
+        const diff = minus(1, rate)
+        if (diff !== 0) {
+            if (times(diff, 100) % times(interval, 100) === 0) {
+                return true
+            }
+        }
+        return false
     }
 
     static computedRealBuyingQuantity(expectedQuantity: number): number {
@@ -135,10 +157,12 @@ export class TradingStore {
 
     constructor(props?: TradingStoreProps) {
         if (props) {
-            this.basePrice = props.basePrice
-            this.amplitudeInterval = props.amplitudeInterval
-            this.investment = props.investment
-            this.maxGear = props.maxGear
+            props.basePrice !== undefined && (this.basePrice = props.basePrice)
+            props.amplitudeInterval !== undefined &&
+                (this.amplitudeInterval = props.amplitudeInterval)
+            props.investment !== undefined &&
+                (this.investment = props.investment)
+            props.maxGear !== undefined && (this.maxGear = props.maxGear)
         }
     }
 
@@ -176,5 +200,13 @@ export class TradingStore {
 
     public getMaxGear() {
         return this.maxGear
+    }
+
+    public getMiddleAmplitudeInterval() {
+        return this.middleAmplitudeInterval
+    }
+
+    public getLargeAmplitudeInterval() {
+        return this.largeAmplitudeInterval
     }
 }

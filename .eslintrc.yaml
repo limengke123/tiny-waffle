@@ -64,3 +64,4 @@ rules:
   no-unused-vars: 0
   no-dupe-class-members: 0
   lines-between-class-members: 0
+  no-unused-expressions: 0

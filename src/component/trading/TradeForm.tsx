@@ -22,18 +22,18 @@ export function TradeForm(props: {
     } = props
     return (
         <Form layout="inline">
-            <Form.Item label="初始基金价格">
+            <Form.Item label="基准基金价格">
                 <InputNumber
                     value={basePrice}
                     onChange={value => handleChange('basePrice', value)}
-                    placeholder="input placeholder"
+                    placeholder="输入基准基金价格"
                 />
             </Form.Item>
-            <Form.Item label="初始买入价格">
+            <Form.Item label="基准买入价格">
                 <InputNumber
                     value={investment}
                     onChange={value => handleChange('investment', value)}
-                    placeholder="input placeholder"
+                    placeholder="输入基准买入价格"
                 />
             </Form.Item>
             <Form.Item label="网格大小">
@@ -44,14 +44,14 @@ export function TradeForm(props: {
                     parser={value => (value ? value.replace('%', '') : 0)}
                     value={times(amplitudeInterval, 100)}
                     onChange={value => handleChange('amplitudeInterval', value)}
-                    placeholder="input placeholder"
+                    placeholder="输入网格大小"
                 />
             </Form.Item>
             <Form.Item label="极限档位">
                 <InputNumber
                     value={maxGear}
                     onChange={value => handleChange('maxGear', value)}
-                    placeholder="input placeholder"
+                    placeholder="输入极限档位"
                 />
             </Form.Item>
             <Form.Item>
