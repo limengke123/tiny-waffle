@@ -13,6 +13,12 @@ interface SellTradeInfoView {
     sellMoney: number // 卖出金额
     sellQuantity: number // 卖出股数
 }
+interface InterestTradeInfoView {
+    netProfit: number
+    stockNumCollect: number
+    extraStockMoney: number
+}
+
 interface BaseTradeInfoView {
     currentGear: number // 档位
     rate: number // 对应下降的比例
@@ -21,6 +27,7 @@ interface BaseTradeInfoView {
 export interface TradeInfoView
     extends BuyTradeInfoView,
         SellTradeInfoView,
+        InterestTradeInfoView,
         BaseTradeInfoView {}
 
 export enum intervalEnum {
@@ -77,18 +84,18 @@ export class TradingStore {
         const resultList: TradeInfoView[] = []
         const rate = strip(1 - (currentGear - 1) * this.amplitudeInterval)
         const sellRate = strip(1 - (currentGear - 2) * this.amplitudeInterval)
-        const buyingPrice = strip(this.basePrice * rate)
+        let buyingPrice = strip(this.basePrice * rate)
         const expectedBuyingMoney = strip(
             this.investment * (1 + this.additionalRate * (currentGear - 1))
         )
         const buyingQuantity = TradingStore.computedRealBuyingQuantity(
             expectedBuyingMoney / buyingPrice
         )
-        const buyingMoney = times(buyingQuantity, buyingPrice)
-        const sellPrice = strip(this.basePrice * sellRate)
+        let buyingMoney = times(buyingQuantity, buyingPrice)
+        let sellPrice = strip(this.basePrice * sellRate)
         // 小网格保留 10%，其中 5%是利润，5%是本金
         const sellQuantity = ~~((buyingQuantity * 0.9) / 100) * 100
-        const sellMoney = times(sellPrice, sellQuantity)
+        let sellMoney = times(sellPrice, sellQuantity)
         const middleRateDiff = TradingStore.getRateDiffByRate(
             rate,
             this.middleAmplitudeInterval
@@ -97,14 +104,23 @@ export class TradingStore {
             rate,
             this.largeAmplitudeInterval
         )
+        buyingPrice = TradingStore.contractData(buyingPrice, 3, false)
+        sellPrice = TradingStore.contractData(sellPrice, 3, false)
+        buyingMoney = TradingStore.contractData(buyingMoney, 2)
+        sellMoney = TradingStore.contractData(sellMoney, 2)
+        const stockNumCollect = minus(buyingQuantity, sellQuantity)
         const data: TradeInfoView = {
-            buyingPrice: TradingStore.contractData(buyingPrice, 3, false),
-            buyingMoney: TradingStore.contractData(buyingMoney, 2),
+            buyingPrice,
+            buyingMoney,
             buyingQuantity,
 
             sellQuantity,
-            sellPrice: TradingStore.contractData(sellPrice, 3, false),
-            sellMoney: TradingStore.contractData(sellMoney, 2),
+            sellPrice,
+            sellMoney,
+
+            netProfit: minus(sellMoney, buyingMoney),
+            stockNumCollect,
+            extraStockMoney: times(stockNumCollect, sellPrice),
 
             currentGear,
             rate,
@@ -118,12 +134,19 @@ export class TradingStore {
             // 中网保留 5%，是利润，本金全部赎回
             const middleSellQuantity = ~~((buyingQuantity * 0.95) / 100) * 100
             const middleSellMoney = times(middleSellQuantity, middleSellPrice)
+            const middleStockNumCollect = minus(
+                buyingQuantity,
+                middleSellQuantity
+            )
             resultList.push({
                 ...data,
                 intervalSize: intervalEnum.middle,
                 sellPrice: middleSellPrice,
                 sellQuantity: middleSellQuantity,
-                sellMoney: middleSellMoney
+                sellMoney: middleSellMoney,
+                netProfit: minus(middleSellMoney, buyingMoney),
+                stockNumCollect: middleStockNumCollect,
+                extraStockMoney: times(middleStockNumCollect, middleSellPrice)
             })
         }
         if (largeRateDiff) {
@@ -133,12 +156,19 @@ export class TradingStore {
             // 大网全部卖出，获取全部利润和本金
             const largeSellQuantity = buyingQuantity
             const largeSellMoney = times(largeSellQuantity, largeSellPrice)
+            const largeStockNumCollect = minus(
+                buyingQuantity,
+                largeSellQuantity
+            )
             resultList.push({
                 ...data,
                 intervalSize: intervalEnum.large,
                 sellPrice: largeSellPrice,
                 sellQuantity: largeSellQuantity,
-                sellMoney: largeSellMoney
+                sellMoney: largeSellMoney,
+                netProfit: minus(largeSellMoney, buyingMoney),
+                stockNumCollect: largeStockNumCollect,
+                extraStockMoney: times(largeStockNumCollect, largeSellPrice)
             })
         }
         return resultList

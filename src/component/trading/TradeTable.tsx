@@ -107,7 +107,7 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
                 render: getRender(undefined, undefined, false)
             },
             {
-                title: '买入金额(¥)',
+                title: '买入金额',
                 dataIndex: 'buyingMoney',
                 render: getRender(undefined, undefined, false)
             }
@@ -138,9 +138,36 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
                 render: getRender(undefined, undefined, false)
             },
             {
-                title: '卖出金额(¥)',
+                title: '卖出金额',
                 dataIndex: 'sellMoney',
                 render: getRender(undefined, undefined, false)
+            }
+        ]
+    },
+    {
+        title: '操作利润',
+        children: [
+            {
+                title: '本金入袋盈亏',
+                dataIndex: 'netProfit',
+                render: getRender(undefined, undefined, false)
+            },
+            {
+                title: '获得的股数',
+                dataIndex: 'stockNumCollect',
+                render: getRender(undefined, undefined, false)
+            },
+            {
+                title: '额外股数对应金额',
+                dataIndex: 'extraStockMoney',
+                render: getRender(undefined, undefined, false)
+            },
+            {
+                title: '合计收益',
+                key: 'total',
+                render: getRender((_, record) =>
+                    plus(record.extraStockMoney, record.netProfit)
+                )
             }
         ]
     }
