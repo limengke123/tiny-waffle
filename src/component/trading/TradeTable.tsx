@@ -3,15 +3,15 @@ import { Table } from 'antd'
 import React from 'react'
 import NP from 'number-precision'
 import {
-    BuyTradeInfoView,
     intervalEnum,
     intervalSizeMap,
+    TradeInfoView,
     TradingStore
 } from '../../store/TradingStore'
 import { compose } from '../../util/rambda'
 import '../../style/component/trading/TradeTable.scss'
 
-const { times, plus } = NP
+const { times, plus, minus } = NP
 
 interface TradeInfoUIView {
     intervalSizeRowSpan: number
@@ -29,7 +29,7 @@ const defaultTradeInfoUIView: TradeInfoUIView = {
     buyingQuantityRowSpan: 1
 }
 
-interface ComposeTradeInfoView extends BuyTradeInfoView, TradeInfoUIView {}
+interface ComposeTradeInfoView extends TradeInfoView, TradeInfoUIView {}
 
 const classNameByIntervalSize: { [k in intervalEnum]: string } = {
     [intervalEnum.small]: '',
@@ -71,8 +71,7 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
             },
             'currentGearRowSpan',
             true
-        ),
-        width: 80
+        )
     },
     {
         key: 'intervalSize',
@@ -81,8 +80,7 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
             (_, record) => intervalSizeMap.get(record.intervalSize) || '未知',
             'intervalSizeRowSpan',
             false
-        ),
-        width: 100
+        )
     },
     {
         title: '买入操作',
@@ -92,7 +90,7 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
                 key: 'buyingTriggerPrice',
                 render: getRender(
                     (_, record) => {
-                        return plus(record.buyingPrice, 0.001)
+                        return `<= ${plus(record.buyingPrice, 0.001)}`
                     },
                     'buyingPriceRowSpan',
                     false
@@ -104,13 +102,44 @@ const columns: ColumnProps<ComposeTradeInfoView>[] = [
                 render: getRender(undefined, undefined, false)
             },
             {
-                title: '买入金额(¥)',
-                dataIndex: 'buyingMoney',
+                title: '买入股数',
+                dataIndex: 'buyingQuantity',
                 render: getRender(undefined, undefined, false)
             },
             {
-                title: '买入股数',
-                dataIndex: 'buyingQuantity',
+                title: '买入金额(¥)',
+                dataIndex: 'buyingMoney',
+                render: getRender(undefined, undefined, false)
+            }
+        ]
+    },
+    {
+        title: '卖出操作',
+        children: [
+            {
+                title: '卖出触发价格',
+                key: 'sellTriggerPrice',
+                render: getRender(
+                    (_, record) => {
+                        return `>= ${minus(record.sellPrice, 0.001)}`
+                    },
+                    'buyingPriceRowSpan',
+                    false
+                )
+            },
+            {
+                title: '卖出价格',
+                dataIndex: 'sellPrice',
+                render: getRender(undefined, undefined, false)
+            },
+            {
+                title: '卖出股数股数',
+                dataIndex: 'sellQuantity',
+                render: getRender(undefined, undefined, false)
+            },
+            {
+                title: '卖出金额(¥)',
+                dataIndex: 'sellMoney',
                 render: getRender(undefined, undefined, false)
             }
         ]
@@ -163,7 +192,7 @@ const curringGroupDataByKey = function<
 }
 
 const injectUIDataIntoRawData = function(
-    data: BuyTradeInfoView[]
+    data: TradeInfoView[]
 ): ComposeTradeInfoView[] {
     const preProcessList = data.map<ComposeTradeInfoView>(item => ({
         ...item,

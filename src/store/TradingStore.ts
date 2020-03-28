@@ -3,15 +3,25 @@ import NP from 'number-precision'
 const { times, minus, plus, divide, strip } = NP
 NP.enableBoundaryChecking(false)
 
-export interface BuyTradeInfoView {
+interface BuyTradeInfoView {
     buyingPrice: number // 买入价格
     buyingMoney: number // 买入金额
     buyingQuantity: number // 买入股数
+}
+interface SellTradeInfoView {
+    sellPrice: number // 卖出价格
+    sellMoney: number // 卖出金额
+    sellQuantity: number // 卖出股数
+}
+interface BaseTradeInfoView {
     currentGear: number // 档位
     rate: number // 对应下降的比例
-
     intervalSize: intervalEnum // 网格大小
 }
+export interface TradeInfoView
+    extends BuyTradeInfoView,
+        SellTradeInfoView,
+        BaseTradeInfoView {}
 
 export enum intervalEnum {
     small = 1,
@@ -24,15 +34,6 @@ export const intervalSizeMap = new Map<intervalEnum, string>([
     [intervalEnum.middle, '中网'],
     [intervalEnum.large, '大网']
 ])
-
-export interface SellTradeInfoView {
-    sellPrice: number // 卖出价格
-    sellPriceString: string // 卖出价格的字符串
-    sellMoney: number // 卖出金额
-    sellMoneyString: string // 卖出金额字符串
-    sellQuantity: number // 卖出股数
-    currentGear: number // 档位
-}
 
 export interface TradingStoreProps {
     basePrice?: number
@@ -62,8 +63,8 @@ export class TradingStore {
     private largeAmplitudeInterval: number =
         TradingStore.defaultLargeAmplitudeInterval
 
-    public getBuyTradingList(): BuyTradeInfoView[] {
-        const resultList: BuyTradeInfoView[] = []
+    public getBuyTradingList(): TradeInfoView[] {
+        const resultList: TradeInfoView[] = []
         let currentGear: number = this.gear
         while (currentGear <= this.maxGear) {
             resultList.push(...this.getTradeInfoByGear(currentGear))
@@ -72,53 +73,85 @@ export class TradingStore {
         return resultList
     }
 
-    private getTradeInfoByGear(currentGear: number): BuyTradeInfoView[] {
-        const resultList: BuyTradeInfoView[] = []
+    private getTradeInfoByGear(currentGear: number): TradeInfoView[] {
+        const resultList: TradeInfoView[] = []
         const rate = strip(1 - (currentGear - 1) * this.amplitudeInterval)
+        const sellRate = strip(1 - (currentGear - 2) * this.amplitudeInterval)
         const buyingPrice = strip(this.basePrice * rate)
         const expectedBuyingMoney = strip(
             this.investment * (1 + this.additionalRate * (currentGear - 1))
         )
         const buyingQuantity = TradingStore.computedRealBuyingQuantity(
-            divide(expectedBuyingMoney, buyingPrice)
+            expectedBuyingMoney / buyingPrice
         )
         const buyingMoney = times(buyingQuantity, buyingPrice)
-        const data: BuyTradeInfoView = {
+        const sellPrice = strip(this.basePrice * sellRate)
+        // 小网格保留 10%，其中 5%是利润，5%是本金
+        const sellQuantity = ~~((buyingQuantity * 0.9) / 100) * 100
+        const sellMoney = times(sellPrice, sellQuantity)
+        const middleRateDiff = TradingStore.getRateDiffByRate(
+            rate,
+            this.middleAmplitudeInterval
+        )
+        const largeRateDiff = TradingStore.getRateDiffByRate(
+            rate,
+            this.largeAmplitudeInterval
+        )
+        const data: TradeInfoView = {
             buyingPrice: TradingStore.contractData(buyingPrice, 3, false),
             buyingMoney: TradingStore.contractData(buyingMoney, 2),
             buyingQuantity,
+
+            sellQuantity,
+            sellPrice: TradingStore.contractData(sellPrice, 3, false),
+            sellMoney: TradingStore.contractData(sellMoney, 2),
+
             currentGear,
             rate,
             intervalSize: intervalEnum.small
         }
         resultList.push(data)
-        if (
-            TradingStore.checkIntervalByRate(rate, this.middleAmplitudeInterval)
-        ) {
+        if (middleRateDiff) {
+            const middleSellPrice = strip(
+                (rate + this.middleAmplitudeInterval) * this.basePrice
+            )
+            // 中网保留 5%，是利润，本金全部赎回
+            const middleSellQuantity = ~~((buyingQuantity * 0.95) / 100) * 100
+            const middleSellMoney = times(middleSellQuantity, middleSellPrice)
             resultList.push({
                 ...data,
-                intervalSize: intervalEnum.middle
+                intervalSize: intervalEnum.middle,
+                sellPrice: middleSellPrice,
+                sellQuantity: middleSellQuantity,
+                sellMoney: middleSellMoney
             })
         }
-        if (
-            TradingStore.checkIntervalByRate(rate, this.largeAmplitudeInterval)
-        ) {
+        if (largeRateDiff) {
+            const largeSellPrice = strip(
+                (rate + this.largeAmplitudeInterval) * this.basePrice
+            )
+            // 大网全部卖出，获取全部利润和本金
+            const largeSellQuantity = buyingQuantity
+            const largeSellMoney = times(largeSellQuantity, largeSellPrice)
             resultList.push({
                 ...data,
-                intervalSize: intervalEnum.large
+                intervalSize: intervalEnum.large,
+                sellPrice: largeSellPrice,
+                sellQuantity: largeSellQuantity,
+                sellMoney: largeSellMoney
             })
         }
         return resultList
     }
 
-    static checkIntervalByRate(rate: number, interval: number): boolean {
+    static getRateDiffByRate(rate: number, interval: number): number {
         const diff = minus(1, rate)
         if (diff !== 0) {
             if (times(diff, 100) % times(interval, 100) === 0) {
-                return true
+                return strip(diff / interval)
             }
         }
-        return false
+        return 0
     }
 
     static computedRealBuyingQuantity(expectedQuantity: number): number {
