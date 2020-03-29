@@ -241,11 +241,12 @@ export function TradeTable(props: { store: TradingStore }) {
     return (
         <Table<ComposeTradeInfoView>
             className="trade-table"
+            style={{ margin: '20px 0 20px 0' }}
             rowKey={record => `${record.buyingPrice}|${record.intervalSize}`}
             bordered
             dataSource={injectUIDataIntoRawData(rawDataList)}
             columns={columns}
-            pagination={{ pageSize: 20 }}
+            pagination={false}
         />
     )
 }

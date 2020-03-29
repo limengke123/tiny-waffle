@@ -5,6 +5,7 @@ import { TradingStore } from '../store/TradingStore'
 import { TradeForm } from '../component/trading/TradeForm'
 import { TradeTable } from '../component/trading/TradeTable'
 import { TradeInfo } from '../component/trading/TradeInfo'
+import { TradeHeaderInfo } from '../component/trading/TradeHeaderInfo'
 
 const { divide } = NP
 
@@ -52,14 +53,7 @@ export default function Trading() {
             <Sider>侧边内容</Sider>
             <Layout>
                 <Header style={{ background: '#fff', padding: '10px 16px' }}>
-                    <TradeForm
-                        amplitudeInterval={amplitudeInterval}
-                        basePrice={basePrice}
-                        investment={investment}
-                        maxGear={maxGear}
-                        handleChange={handleChange}
-                        handleGenerate={handleGenerate}
-                    />
+                    <TradeHeaderInfo />
                 </Header>
                 <Content
                     style={{
@@ -68,10 +62,19 @@ export default function Trading() {
                         margin: '10px 0'
                     }}
                 >
+                    <TradeForm
+                        amplitudeInterval={amplitudeInterval}
+                        basePrice={basePrice}
+                        investment={investment}
+                        maxGear={maxGear}
+                        handleChange={handleChange}
+                        handleGenerate={handleGenerate}
+                    />
                     <TradeTable store={store} />
+                    <TradeInfo store={store} />
                 </Content>
                 <Footer style={{ background: '#fff', padding: '10px 16px' }}>
-                    <TradeInfo store={store} />
+                    不构成投资建议
                 </Footer>
             </Layout>
         </Layout>
