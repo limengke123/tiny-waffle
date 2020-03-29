@@ -3,23 +3,47 @@ import { Button, Drawer } from 'antd'
 import '../../style/component/trading/TradeHeaderInfo.scss'
 
 export function TradeHeaderInfo() {
-    const [visible, setVisible] = useState(false)
-    const handleClick = function() {
-        setVisible(true)
+    const [valuationVisible, setValuationVisible] = useState(false)
+    const [priceVisible, setPriceVisible] = useState(false)
+    const handleValuationClick = function() {
+        setValuationVisible(true)
     }
-    const onClose = function() {
-        setVisible(false)
+    const handlePriceClick = function() {
+        setPriceVisible(true)
+    }
+    const onValuationClose = function() {
+        setValuationVisible(false)
+    }
+    const onPriceClose = function() {
+        setPriceVisible(false)
     }
     return (
         <div className="trade-header-info">
-            <Button onClick={handleClick}>查看估值</Button>
+            <Button onClick={handleValuationClick}>查看估值</Button>
+            <Button onClick={handlePriceClick}>查看qdii溢折价</Button>
+            <Drawer
+                title="折溢价查看"
+                placement="right"
+                width={1300}
+                closable={false}
+                visible={priceVisible}
+                onClose={onPriceClose}
+            >
+                <div className="iframe-container">
+                    <iframe
+                        className="iframe"
+                        title="jisilu"
+                        src="https://www.jisilu.cn/data/qdii/#qdii"
+                    />
+                </div>
+            </Drawer>
             <Drawer
                 title="估值查看"
                 placement="right"
-                width={520}
+                width={700}
                 closable={false}
-                visible={visible}
-                onClose={onClose}
+                visible={valuationVisible}
+                onClose={onValuationClose}
             >
                 <div className="iframe-container">
                     <iframe
