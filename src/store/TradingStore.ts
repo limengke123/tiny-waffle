@@ -1,6 +1,6 @@
 import NP from 'number-precision'
 
-const { times, minus, plus, divide, strip } = NP
+const { times, minus, plus, strip } = NP
 NP.enableBoundaryChecking(false)
 
 interface BuyTradeInfoView {
