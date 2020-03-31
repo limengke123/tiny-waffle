@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout } from 'antd'
+import { BackTop, Icon, Layout, Menu } from 'antd'
 import NP from 'number-precision'
 import { TradingStore } from '../store/TradingStore'
 import { TradeForm } from '../component/trading/TradeForm'
@@ -11,6 +11,8 @@ const { divide } = NP
 
 const { Sider, Header, Content, Footer } = Layout
 
+const { Item: MenuItem } = Menu
+
 export default function Trading() {
     const [basePrice, setPrice] = useState(TradingStore.defaultBasePrice)
     const [amplitudeInterval, setAmplitudeInterval] = useState(
@@ -19,6 +21,7 @@ export default function Trading() {
     const [investment, setInvestment] = useState(TradingStore.defaultInvestment)
     const [maxGear, setMaxGear] = useState(TradingStore.defaultMaxGear)
     const [store, setStore] = useState(new TradingStore())
+    const [collapsed, setCollapsed] = useState(true)
     const handleChange = function(type: string, value: number | undefined) {
         if (value) {
             switch (type) {
@@ -50,9 +53,27 @@ export default function Trading() {
     }
     return (
         <Layout>
-            <Sider>侧边内容</Sider>
+            <BackTop visibilityHeight={200} />
+            <Sider
+                width={200}
+                collapsible
+                collapsed={collapsed}
+                onCollapse={() => setCollapsed(!collapsed)}
+            >
+                <div className="logo">logo占位符</div>
+                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+                    <MenuItem key="1">
+                        <Icon type="desktop" />
+                        <span>网格设置页面</span>
+                    </MenuItem>
+                    <MenuItem key="2">
+                        <Icon type="user" />
+                        <span>工具页面</span>
+                    </MenuItem>
+                </Menu>
+            </Sider>
             <Layout>
-                <Header style={{ background: '#fff', padding: '10px 16px' }}>
+                <Header style={{ background: '#fff', padding: '0 16px' }}>
                     <TradeHeaderInfo />
                 </Header>
                 <Content
@@ -73,8 +94,14 @@ export default function Trading() {
                     <TradeTable store={store} />
                     <TradeInfo store={store} />
                 </Content>
-                <Footer style={{ background: '#fff', padding: '10px 16px' }}>
-                    不构成投资建议
+                <Footer
+                    style={{
+                        background: '#fff',
+                        padding: '10px 16px',
+                        textAlign: 'center'
+                    }}
+                >
+                    不构成任何投资建议, 投资需谨慎
                 </Footer>
             </Layout>
         </Layout>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Drawer } from 'antd'
+import { Button, Drawer, Input } from 'antd'
 import '../../style/component/trading/TradeHeaderInfo.scss'
 
 export function TradeHeaderInfo() {
@@ -19,8 +19,21 @@ export function TradeHeaderInfo() {
     }
     return (
         <div className="trade-header-info">
-            <Button onClick={handleValuationClick}>查看估值</Button>
-            <Button onClick={handlePriceClick}>查看qdii溢折价</Button>
+            <div className="header-container">
+                <Input
+                    className="custom-input-name"
+                    placeholder="输入网格名称"
+                />
+                <Input
+                    className="custom-input-code"
+                    placeholder="输入基金代码"
+                />
+                <Button type="primary" onClick={handleValuationClick}>
+                    估值查看
+                </Button>
+                {/*<Button onClick={handlePriceClick}>查看qdii溢折价</Button>*/}
+            </div>
+
             <Drawer
                 title="折溢价查看"
                 placement="right"

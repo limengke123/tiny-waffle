@@ -6,3 +6,32 @@
         height: 100%;
     }
 }
+
+.trade-header-info {
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @mixin custom-input($size) {
+            height: $size;
+            font-size: $size / 2;
+            border: none;
+            outline: none;
+            &:focus {
+                border: none !important;
+                box-shadow: none;
+            }
+        }
+        .custom-input-name {
+            @include custom-input(64px);
+            width: 400px;
+        }
+        .custom-input-code {
+            @include custom-input(48px);
+            width: 400px;
+        }
+    }
+    .button-group {
+    }
+}
