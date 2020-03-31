@@ -22,6 +22,8 @@ export default function Trading() {
     const [maxGear, setMaxGear] = useState(TradingStore.defaultMaxGear)
     const [store, setStore] = useState(new TradingStore())
     const [collapsed, setCollapsed] = useState(true)
+    const [name, setName] = useState('')
+    const [code, setCode] = useState('')
     const handleChange = function(type: string, value: number | undefined) {
         if (value) {
             switch (type) {
@@ -40,6 +42,22 @@ export default function Trading() {
                 default:
                     break
             }
+        }
+    }
+    const handleBaseInfoChange = function(
+        type: 'code' | 'name',
+        value: string
+    ) {
+        console.log(type, value)
+        switch (type) {
+            case 'code':
+                setCode(value)
+                break
+            case 'name':
+                setName(value)
+                break
+            default:
+                break
         }
     }
     const handleGenerate = function() {
@@ -74,7 +92,11 @@ export default function Trading() {
             </Sider>
             <Layout>
                 <Header style={{ background: '#fff', padding: '0 16px' }}>
-                    <TradeHeaderInfo />
+                    <TradeHeaderInfo
+                        name={name}
+                        code={code}
+                        handleChange={handleBaseInfoChange}
+                    />
                 </Header>
                 <Content
                     style={{

@@ -1,4 +1,5 @@
 import NP from 'number-precision'
+import { TradingStoreBaseInfo } from './TradingStoreBaseInfo'
 
 const { times, minus, plus, strip } = NP
 NP.enableBoundaryChecking(false)
@@ -49,7 +50,7 @@ export interface TradingStoreProps {
     maxGear?: number
 }
 
-export class TradingStore {
+export class TradingStore extends TradingStoreBaseInfo {
     static defaultBasePrice = 1
     static defaultAmplitudeInterval = 0.05
     static defaultInvestment = 1000
@@ -216,6 +217,7 @@ export class TradingStore {
     }
 
     constructor(props?: TradingStoreProps) {
+        super()
         if (props) {
             props.basePrice !== undefined && (this.basePrice = props.basePrice)
             props.amplitudeInterval !== undefined &&

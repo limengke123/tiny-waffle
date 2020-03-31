@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import { Button, Drawer, Input } from 'antd'
 import '../../style/component/trading/TradeHeaderInfo.scss'
 
-export function TradeHeaderInfo() {
+export function TradeHeaderInfo(props: {
+    name: string
+    code: string
+    handleChange: (type: 'name' | 'code', value: string) => void
+}) {
+    const { name, code, handleChange } = props
     const [valuationVisible, setValuationVisible] = useState(false)
     const [priceVisible, setPriceVisible] = useState(false)
     const handleValuationClick = function() {
@@ -23,10 +28,14 @@ export function TradeHeaderInfo() {
                 <Input
                     className="custom-input-name"
                     placeholder="输入网格名称"
+                    value={name}
+                    onChange={e => handleChange('name', e.target.value)}
                 />
                 <Input
                     className="custom-input-code"
                     placeholder="输入基金代码"
+                    value={code}
+                    onChange={e => handleChange('code', e.target.value)}
                 />
                 <Button type="primary" onClick={handleValuationClick}>
                     估值查看
