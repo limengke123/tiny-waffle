@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { Button, Drawer, Input } from 'antd'
 import '../../style/component/trading/TradeHeaderInfo.scss'
+import { TradeInfoViewPersistence } from '../../store/persistenceStore'
+import { TradingStore } from '../../store/TradingStore'
 
 export function TradeHeaderInfo(props: {
     name: string
     code: string
+    store: TradingStore
     handleChange: (type: 'name' | 'code', value: string) => void
 }) {
-    const { name, code, handleChange } = props
+    const { name, code, handleChange, store } = props
     const [valuationVisible, setValuationVisible] = useState(false)
     const [priceVisible, setPriceVisible] = useState(false)
     const handleValuationClick = function() {
@@ -21,6 +24,10 @@ export function TradeHeaderInfo(props: {
     }
     const onPriceClose = function() {
         setPriceVisible(false)
+    }
+    const handleSave = function() {
+        const tradeInfoViewPersistence = new TradeInfoViewPersistence()
+        tradeInfoViewPersistence.addData(store.getTradingStoreProps())
     }
     return (
         <div className="trade-header-info">
@@ -37,9 +44,11 @@ export function TradeHeaderInfo(props: {
                     value={code}
                     onChange={e => handleChange('code', e.target.value)}
                 />
-                <Button type="primary" onClick={handleValuationClick}>
-                    估值查看
+                <Button type="primary" onClick={handleSave}>
+                    保存配置
                 </Button>
+                <Button type="danger">删除配置</Button>
+                <Button onClick={handleValuationClick}>估值查看</Button>
                 {/*<Button onClick={handlePriceClick}>查看qdii溢折价</Button>*/}
             </div>
 

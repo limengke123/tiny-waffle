@@ -228,6 +228,15 @@ export class TradingStore extends TradingStoreBaseInfo {
         }
     }
 
+    public getTradingStoreProps(): TradingStoreProps {
+        return {
+            basePrice: this.getBasePrice(),
+            amplitudeInterval: this.getAmplitudeInterval(),
+            investment: this.getInvestment(),
+            maxGear: this.getMaxGear()
+        }
+    }
+
     public setBasePrice(price: number) {
         this.basePrice = price
     }

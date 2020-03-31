@@ -93,6 +93,7 @@ export default function Trading() {
             <Layout>
                 <Header style={{ background: '#fff', padding: '0 16px' }}>
                     <TradeHeaderInfo
+                        store={store}
                         name={name}
                         code={code}
                         handleChange={handleBaseInfoChange}

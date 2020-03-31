@@ -27,9 +27,11 @@ class PersistenceStore<K> {
 
     private persistenceKey = 'trade_list'
 
-    constructor(props: PersistenceStoreProps) {
-        props.storage && (this.storage = props.storage)
-        props.persistenceKey && (this.persistenceKey = props.persistenceKey)
+    constructor(props?: PersistenceStoreProps) {
+        if (props) {
+            props.storage && (this.storage = props.storage)
+            props.persistenceKey && (this.persistenceKey = props.persistenceKey)
+        }
     }
 
     static generateKey(): string {
@@ -91,10 +93,12 @@ class PersistenceStore<K> {
     }
 }
 
-export class TradeInfoViewPersistence<
-    T extends PersistenceDataView<TradingStoreProps>[]
-> extends PersistenceStore<T> {
-    public addData(dataParams: TradingStoreProps): responseData<T> {
+export class TradeInfoViewPersistence extends PersistenceStore<
+    PersistenceDataView<TradingStoreProps>[]
+> {
+    public addData(
+        dataParams: TradingStoreProps
+    ): responseData<PersistenceDataView<TradingStoreProps>[]> {
         const id = PersistenceStore.generateKey()
         const data = {
             id,
@@ -103,9 +107,15 @@ export class TradeInfoViewPersistence<
         }
         try {
             const getResponse = this.getPersistenceView()
-            if (getResponse.success && getResponse.data) {
-                getResponse.data.push(data)
-                const saveResponse = this.savePersistenceView(getResponse.data)
+            if (getResponse.success) {
+                let result: PersistenceDataView<TradingStoreProps>[] = []
+                if (!getResponse.data) {
+                    result = [data]
+                } else {
+                    result = getResponse.data
+                    result.push(data)
+                }
+                const saveResponse = this.savePersistenceView(result)
                 if (saveResponse.success) {
                     return {
                         success: true,
