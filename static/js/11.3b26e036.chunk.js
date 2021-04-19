@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[11],{436:function(e,n,t){"use strict";t.r(n);var a=t(0),o=t.n(a),c=t(7);n.default=function(){return o.a.createElement("div",null,"we are lost there and find nothing, click",o.a.createElement(c.b,{to:"/counter"}," here "),"back to home page !")}}}]);
+//# sourceMappingURL=11.3b26e036.chunk.js.map
